@@ -30,7 +30,7 @@ $role = $user['role'] ?? '';
   <div class="d-flex align-items-center gap-2">
     <span class="badge bg-<?= $roleColor[$role] ?? 'secondary' ?> badge-role"><?= $roleName[$role] ?? $role ?></span>
     <span class="text-white small"><?= htmlspecialchars($user['nome'] ?? $user['cpf'] ?? '') ?></span>
-    <a href="<?= str_repeat('../', max(0, substr_count(str_replace('\\', '/', $_SERVER['SCRIPT_NAME']), '/') - 1)) ?>logout.php"
+    <a href="<?= rootPath() ?>logout.php"
        class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Sair</a>
   </div>
 </nav>
@@ -39,7 +39,7 @@ $role = $user['role'] ?? '';
     <nav class="col-md-2 col-lg-2 d-none d-md-block sidebar py-3 px-2">
       <ul class="nav flex-column">
 <?php
-$base = str_repeat('../', max(0, substr_count(str_replace('\\', '/', $_SERVER['SCRIPT_NAME']), '/') - 1));
+$base = rootPath();
 if ($role === 'admin'): ?>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>admin/index.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>admin/usuarios.php"><i class="bi bi-people"></i> Usuários</a></li>

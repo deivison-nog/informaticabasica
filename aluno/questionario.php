@@ -16,68 +16,99 @@ $id = (int)($_GET['id'] ?? 0);
 if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
     $quiz = $allQuizzes[$id];
     $pageTitle = $quiz['titulo'];
+    $resultados = null;
+
+    // Server-side correction on POST submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])
+        && (int)$_POST['quiz_id'] === $id) {
+        $resultados = [];
+        $acertos = 0;
+        foreach ($quiz['perguntas'] as $qi => $pergunta) {
+            $resposta = $_POST['q' . $qi] ?? null;
+            $gabarito = $pergunta['gabarito'];
+            $correto  = ($resposta === $gabarito);
+            if ($correto) $acertos++;
+            $resultados[$qi] = [
+                'resposta' => $resposta,
+                'gabarito' => $gabarito,
+                'correto'  => $correto,
+                'opcoes'   => $pergunta['opcoes'],
+            ];
+        }
+        $resultados['_score'] = ['acertos' => $acertos, 'total' => count($quiz['perguntas'])];
+    }
+
     include __DIR__ . '/../includes/header.php';
     ?>
     <a href="questionario.php" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
     <h4 class="fw-bold mb-4"><?= htmlspecialchars($quiz['titulo']) ?></h4>
-    <form id="quizForm">
-    <?php foreach ($quiz['perguntas'] as $qi => $pergunta): ?>
-    <div class="card mb-3">
+
+    <?php if ($resultados !== null):
+        $score = $resultados['_score'];
+        $pct   = $score['total'] > 0 ? round($score['acertos'] / $score['total'] * 100) : 0;
+        $cls   = $score['acertos'] === $score['total'] ? 'success' : ($pct >= 50 ? 'warning' : 'danger');
+    ?>
+    <div class="alert alert-<?= $cls ?> fw-semibold mb-4">
+      <i class="bi bi-bar-chart-fill me-1"></i>
+      Você acertou <?= $score['acertos'] ?> de <?= $score['total'] ?> questões (<?= $pct ?>%).
+    </div>
+    <?php foreach ($quiz['perguntas'] as $qi => $pergunta):
+        $r = $resultados[$qi];
+    ?>
+    <div class="card mb-3 border-<?= $r['correto'] ? 'success' : 'danger' ?>">
       <div class="card-body">
-        <p class="fw-semibold mb-3"><?= ($qi+1) ?>. <?= htmlspecialchars($pergunta['texto']) ?></p>
-        <?php foreach ($pergunta['opcoes'] as $letra => $texto): ?>
-        <div class="form-check">
-          <input class="form-check-input" type="radio"
-                 name="q<?= $qi ?>" id="q<?= $qi ?>_<?= $letra ?>"
-                 value="<?= $letra ?>"
-                 data-correct="<?= $letra === $pergunta['gabarito'] ? '1' : '0' ?>">
-          <label class="form-check-label" for="q<?= $qi ?>_<?= $letra ?>">
-            <strong><?= strtoupper($letra) ?></strong> — <?= htmlspecialchars($texto) ?>
-          </label>
+        <p class="fw-semibold mb-2"><?= ($qi+1) ?>. <?= htmlspecialchars($pergunta['texto']) ?></p>
+        <?php foreach ($r['opcoes'] as $letra => $texto):
+            $isSelected = ($r['resposta'] === $letra);
+            $isCorrect  = ($r['gabarito'] === $letra);
+            $bg = '';
+            if ($isSelected && $isCorrect)  $bg = 'bg-success bg-opacity-25';
+            elseif ($isSelected && !$isCorrect) $bg = 'bg-danger bg-opacity-25';
+            elseif (!$isSelected && $isCorrect) $bg = 'bg-success bg-opacity-10';
+        ?>
+        <div class="form-check py-1 px-3 rounded <?= $bg ?>">
+          <span class="fw-bold"><?= strtoupper($letra) ?></span> — <?= htmlspecialchars($texto) ?>
+          <?php if ($isSelected && $isCorrect):  ?><span class="text-success ms-1">✅</span>
+          <?php elseif ($isSelected && !$isCorrect): ?><span class="text-danger ms-1">❌</span>
+          <?php elseif (!$isSelected && $isCorrect): ?><span class="text-success ms-1">← correta</span>
+          <?php endif; ?>
         </div>
         <?php endforeach; ?>
-        <div class="mt-2 result-msg d-none"></div>
+        <?php if ($r['resposta'] === null): ?>
+        <p class="text-warning mt-1 mb-0 small"><i class="bi bi-exclamation-triangle me-1"></i>Não respondida.</p>
+        <?php endif; ?>
       </div>
     </div>
     <?php endforeach; ?>
-    <button type="button" class="btn btn-success mb-4" onclick="corrigirQuiz()">
-      <i class="bi bi-check-all me-1"></i>Corrigir Questionário
-    </button>
-    <div id="quizScore" class="d-none alert alert-info fw-semibold"></div>
+    <a href="questionario.php?id=<?= $id ?>" class="btn btn-outline-primary">
+      <i class="bi bi-arrow-repeat me-1"></i>Refazer Questionário
+    </a>
+
+    <?php else: ?>
+    <form method="post" action="questionario.php?id=<?= $id ?>">
+      <input type="hidden" name="quiz_id" value="<?= $id ?>">
+      <?php foreach ($quiz['perguntas'] as $qi => $pergunta): ?>
+      <div class="card mb-3">
+        <div class="card-body">
+          <p class="fw-semibold mb-3"><?= ($qi+1) ?>. <?= htmlspecialchars($pergunta['texto']) ?></p>
+          <?php foreach ($pergunta['opcoes'] as $letra => $texto): ?>
+          <div class="form-check">
+            <input class="form-check-input" type="radio"
+                   name="q<?= $qi ?>" id="q<?= $qi ?>_<?= $letra ?>"
+                   value="<?= htmlspecialchars($letra) ?>">
+            <label class="form-check-label" for="q<?= $qi ?>_<?= $letra ?>">
+              <strong><?= strtoupper($letra) ?></strong> — <?= htmlspecialchars($texto) ?>
+            </label>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endforeach; ?>
+      <button type="submit" class="btn btn-success mb-4">
+        <i class="bi bi-check-all me-1"></i>Corrigir Questionário
+      </button>
     </form>
-    <script>
-    function corrigirQuiz() {
-      const form = document.getElementById('quizForm');
-      let acertos = 0, total = <?= count($quiz['perguntas']) ?>;
-      for (let i = 0; i < total; i++) {
-        const selected = form.querySelector(`input[name="q${i}"]:checked`);
-        const msgEl = form.querySelectorAll('.result-msg')[i];
-        msgEl.classList.remove('d-none', 'text-success', 'text-danger');
-        if (!selected) {
-          msgEl.textContent = '⚠️ Não respondida.';
-          msgEl.classList.add('text-danger');
-          continue;
-        }
-        const isCorrect = selected.dataset.correct === '1';
-        if (isCorrect) {
-          acertos++;
-          msgEl.textContent = '✅ Correto!';
-          msgEl.classList.add('text-success');
-        } else {
-          const correctInput = form.querySelector(`input[name="q${i}"][data-correct="1"]`);
-          const correctLabel = correctInput
-            ? correctInput.nextElementSibling.textContent.trim()
-            : '';
-          msgEl.textContent = `❌ Incorreto. Resposta certa: ${correctLabel}`;
-          msgEl.classList.add('text-danger');
-        }
-      }
-      const score = document.getElementById('quizScore');
-      score.classList.remove('d-none');
-      score.textContent = `Você acertou ${acertos} de ${total} questões (${Math.round(acertos/total*100)}%).`;
-      score.className = `alert ${acertos === total ? 'alert-success' : acertos >= total/2 ? 'alert-warning' : 'alert-danger'} fw-semibold`;
-    }
-    </script>
+    <?php endif; ?>
     <?php
     include __DIR__ . '/../includes/footer.php';
     exit;
@@ -110,3 +141,4 @@ include __DIR__ . '/../includes/header.php';
   <?php endforeach; ?>
 </div>
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+

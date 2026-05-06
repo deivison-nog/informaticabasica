@@ -22,7 +22,7 @@ function currentUser(): ?array {
 }
 
 function rootPath(): string {
-    // Works when placed in any subfolder depth
+    // Calculate relative path back to root from current script's directory
     $depth = substr_count(str_replace('\\', '/', $_SERVER['SCRIPT_NAME']), '/') - 1;
-    return str_repeat('../', max(0, $depth - 1));
+    return str_repeat('../', max(0, $depth));
 }

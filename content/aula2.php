@@ -52,7 +52,7 @@
   <!-- ===== SEÇÃO 2 ===== -->
   <h5 class="fw-semibold mt-4">2. E-mail</h5>
   <p>
-    O <strong>e-mail (eletronic mail)</strong> é uma das formas mais importantes de comunicação
+    O <strong>e-mail (electronic mail)</strong> é uma das formas mais importantes de comunicação
     profissional. Permite enviar mensagens, documentos e imagens instantaneamente para qualquer
     lugar do mundo.
   </p>
