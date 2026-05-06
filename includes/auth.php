@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config/functions.php';
 
 function requireLogin(): void {
     if (empty($_SESSION['user'])) {
-        header('Location: ' . rootPath() . '/index.php');
+        header('Location: ' . rootPath() . 'index.php');
         exit;
     }
 }
@@ -12,7 +12,7 @@ function requireLogin(): void {
 function requireRole(string ...$roles): void {
     requireLogin();
     if (!in_array($_SESSION['user']['role'] ?? '', $roles, true)) {
-        header('Location: ' . rootPath() . '/index.php');
+        header('Location: ' . rootPath() . 'index.php');
         exit;
     }
 }
