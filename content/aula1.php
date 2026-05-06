@@ -1,14 +1,15 @@
 <?php
 /**
  * Aula 1 — Conceitos Básicos de Informática
- * Este arquivo é incluído pelo painel do aluno e pelo painel do professor.
+ * Cada <div class="slide-section"> corresponde a um slide da apresentação.
  */
 ?>
-<div class="lesson-content">
+
+<!-- SLIDE 1 — Título + O que é Informática? -->
+<div class="slide-section">
   <h3 class="fw-bold text-primary mb-1"><i class="bi bi-cpu-fill me-2"></i>Aula 1 — Conceitos Básicos de Informática</h3>
   <p class="text-muted mb-4">Objetivo: Entender a estrutura básica de um computador e sua função.</p>
 
-  <!-- ===== SEÇÃO 1 ===== -->
   <h5 class="fw-semibold mt-4">1. O que é Informática?</h5>
   <p>
     Informática é a área que estuda o uso de <strong>computadores e sistemas digitais</strong> para
@@ -21,14 +22,18 @@
     didático, e comerciantes para emitir notas fiscais.
   </p>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 1.1]</strong> — Ilustração de um computador moderno com seus principais componentes indicados.</p>
-  </div>
+  <figure class="text-center my-4">
+    <img src="../images/aula1/foto01.png"
+         alt="Ilustração de um computador moderno com seus principais componentes indicados"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Ilustração de um computador moderno com seus principais componentes indicados.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Ilustração de um computador moderno com seus principais componentes indicados.</figcaption>
+  </figure>
+</div>
 
-  <!-- ===== SEÇÃO 2 ===== -->
-  <h5 class="fw-semibold mt-4">2. Hardware</h5>
+<!-- SLIDE 2 — Hardware (componentes) -->
+<div class="slide-section">
+  <h5 class="fw-semibold">2. Hardware</h5>
   <p>
     <strong>Hardware</strong> é a parte <em>física</em> do computador — tudo que você pode tocar.
   </p>
@@ -48,13 +53,20 @@
     </table>
   </div>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 1.2]</strong> — Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe.</p>
-  </div>
+  <figure class="text-center my-3">
+    <img src="../images/aula1/foto02.png"
+         alt="Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe.</figcaption>
+  </figure>
+</div>
 
-  <h6 class="fw-semibold">Periféricos de Entrada</h6>
+<!-- SLIDE 3 — Periféricos -->
+<div class="slide-section">
+  <h5 class="fw-semibold">2. Hardware — Periféricos</h5>
+
+  <h6 class="fw-semibold mt-3">Periféricos de Entrada</h6>
   <p>Dispositivos que enviam informações <em>para</em> o computador:</p>
   <ul>
     <li>Teclado</li><li>Mouse</li><li>Scanner</li><li>Microfone</li><li>Câmera (webcam)</li>
@@ -71,14 +83,18 @@
     <li>Pen drive</li><li>Headset</li><li>Tela touchscreen</li>
   </ul>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 1.3]</strong> — Montagem com exemplos de periféricos de entrada, saída e entrada/saída.</p>
-  </div>
+  <figure class="text-center my-3">
+    <img src="../images/aula1/foto03.png"
+         alt="Montagem com exemplos de periféricos de entrada, saída e entrada/saída"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Montagem com exemplos de periféricos de entrada, saída e entrada/saída.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Montagem com exemplos de periféricos de entrada, saída e entrada/saída.</figcaption>
+  </figure>
+</div>
 
-  <!-- ===== SEÇÃO 3 ===== -->
-  <h5 class="fw-semibold mt-4">3. Software</h5>
+<!-- SLIDE 4 — Software -->
+<div class="slide-section">
+  <h5 class="fw-semibold">3. Software</h5>
   <p>
     <strong>Software</strong> é a parte <em>lógica</em> do computador — programas e aplicativos que
     rodam no hardware. Sem software, o hardware não sabe o que fazer.
@@ -103,9 +119,11 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ===== SEÇÃO 4 ===== -->
-  <h5 class="fw-semibold mt-4">4. Sistema Operacional</h5>
+<!-- SLIDE 5 — Sistema Operacional -->
+<div class="slide-section">
+  <h5 class="fw-semibold">4. Sistema Operacional</h5>
   <p>
     O <strong>sistema operacional (SO)</strong> é o software principal que controla o computador.
     Suas principais funções são:
@@ -118,14 +136,18 @@
     <li>Gerenciar usuários e permissões</li>
   </ul>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 1.4]</strong> — Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS.</p>
-  </div>
+  <figure class="text-center my-4">
+    <img src="../images/aula1/foto04.png"
+         alt="Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS.</figcaption>
+  </figure>
+</div>
 
-  <!-- RESUMO -->
-  <div class="alert alert-primary mt-4">
+<!-- SLIDE 6 — Resumo -->
+<div class="slide-section">
+  <div class="alert alert-primary mt-2">
     <strong><i class="bi bi-lightbulb-fill me-1"></i>Resumo da Aula 1</strong>
     <ul class="mb-0 mt-1">
       <li><strong>Hardware</strong>: parte física (CPU, RAM, SSD…).</li>
@@ -134,9 +156,11 @@
       <li><strong>Sistema operacional</strong>: controla o computador.</li>
     </ul>
   </div>
+</div>
 
-  <!-- ATIVIDADE -->
-  <div class="card border-secondary mt-3">
+<!-- SLIDE 7 — Atividade -->
+<div class="slide-section">
+  <div class="card border-secondary">
     <div class="card-header bg-secondary text-white fw-semibold"><i class="bi bi-pencil me-1"></i>Atividade</div>
     <div class="card-body">
       <ol>

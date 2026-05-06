@@ -1,13 +1,15 @@
 <?php
 /**
  * Aula 2 — Internet, E-mail e Arquivos
+ * Cada <div class="slide-section"> corresponde a um slide da apresentação.
  */
 ?>
-<div class="lesson-content">
+
+<!-- SLIDE 1 — Título + Internet -->
+<div class="slide-section">
   <h3 class="fw-bold text-info mb-1"><i class="bi bi-globe2 me-2"></i>Aula 2 — Internet, E-mail e Arquivos</h3>
   <p class="text-muted mb-4">Objetivo: Aprender a usar a internet e organizar informações digitais.</p>
 
-  <!-- ===== SEÇÃO 1 ===== -->
   <h5 class="fw-semibold mt-4">1. O que é a Internet?</h5>
   <p>
     A <strong>Internet</strong> é uma <em>rede mundial de computadores</em> que permite a troca de
@@ -19,13 +21,20 @@
     dispositivo com um <strong>navegador</strong>.
   </p>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 2.1]</strong> — Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados.</p>
-  </div>
+  <figure class="text-center my-4">
+    <img src="../images/aula2/foto01.png"
+         alt="Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados.</figcaption>
+  </figure>
+</div>
 
-  <h6 class="fw-semibold">Conceitos importantes</h6>
+<!-- SLIDE 2 — Conceitos + Cuidados -->
+<div class="slide-section">
+  <h5 class="fw-semibold">1. Internet — Conceitos e Cuidados</h5>
+
+  <h6 class="fw-semibold mt-3">Conceitos importantes</h6>
   <ul>
     <li><strong>Navegador (browser)</strong>: programa para acessar sites. Ex: Chrome, Edge, Firefox, Safari.</li>
     <li><strong>Site / Página web</strong>: conjunto de informações acessíveis pela internet.</li>
@@ -35,11 +44,13 @@
     <li><strong>Link (hiperlink)</strong>: texto ou imagem clicável que leva a outra página.</li>
   </ul>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 2.2]</strong> — Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque.</p>
-  </div>
+  <figure class="text-center my-3">
+    <img src="../images/aula2/foto02.png"
+         alt="Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque.</figcaption>
+  </figure>
 
   <h6 class="fw-semibold">Cuidados ao navegar</h6>
   <ul>
@@ -48,9 +59,11 @@
     <li>Evite compartilhar senhas por chat ou e-mail.</li>
     <li>Confirme o endereço do site antes de inserir dados pessoais.</li>
   </ul>
+</div>
 
-  <!-- ===== SEÇÃO 2 ===== -->
-  <h5 class="fw-semibold mt-4">2. E-mail</h5>
+<!-- SLIDE 3 — E-mail -->
+<div class="slide-section">
+  <h5 class="fw-semibold">2. E-mail</h5>
   <p>
     O <strong>e-mail (electronic mail)</strong> é uma das formas mais importantes de comunicação
     profissional. Permite enviar mensagens, documentos e imagens instantaneamente para qualquer
@@ -73,11 +86,13 @@
     </table>
   </div>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 2.3]</strong> — Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados.</p>
-  </div>
+  <figure class="text-center my-3">
+    <img src="../images/aula2/foto03.png"
+         alt="Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados.</figcaption>
+  </figure>
 
   <h6 class="fw-semibold">Boas práticas de e-mail</h6>
   <ul>
@@ -87,9 +102,11 @@
     <li>Evite anexos desnecessários ou muito pesados.</li>
     <li>Não envie e-mails com palavras em CAIXA ALTA (parece que está gritando).</li>
   </ul>
+</div>
 
-  <!-- ===== SEÇÃO 3 ===== -->
-  <h5 class="fw-semibold mt-4">3. Arquivos e Pastas</h5>
+<!-- SLIDE 4 — Arquivos e Pastas -->
+<div class="slide-section">
+  <h5 class="fw-semibold">3. Arquivos e Pastas</h5>
   <p>
     Um <strong>arquivo</strong> é um conjunto de dados salvo com um nome no computador.
     Uma <strong>pasta</strong> é um contêiner que organiza arquivos e outras pastas.
@@ -115,11 +132,13 @@
     </div>
   </div>
 
-  <!-- PLACEHOLDER DE IMAGEM -->
-  <div class="text-center my-4 p-4 border border-dashed rounded bg-light">
-    <i class="bi bi-image text-secondary" style="font-size:2.5rem"></i>
-    <p class="text-muted mt-2 mb-0"><strong>[IMAGEM 2.4]</strong> — Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos.</p>
-  </div>
+  <figure class="text-center my-3">
+    <img src="../images/aula2/foto04.png"
+         alt="Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos"
+         class="img-fluid rounded shadow-sm lesson-image"
+         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos.</p></div>'">
+    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos.</figcaption>
+  </figure>
 
   <h6 class="fw-semibold">Dicas de organização</h6>
   <ul>
@@ -128,9 +147,11 @@
     <li>Evite usar espaços no nome de arquivos — prefira underline (<code>_</code>) ou hífen (<code>-</code>).</li>
     <li>Faça backups regulares em um HD externo ou na nuvem.</li>
   </ul>
+</div>
 
-  <!-- RESUMO -->
-  <div class="alert alert-info mt-4">
+<!-- SLIDE 5 — Resumo -->
+<div class="slide-section">
+  <div class="alert alert-info mt-2">
     <strong><i class="bi bi-lightbulb-fill me-1"></i>Resumo da Aula 2</strong>
     <ul class="mb-0 mt-1">
       <li><strong>Internet</strong>: rede mundial; acesso via navegador.</li>
@@ -139,9 +160,11 @@
       <li><strong>Arquivos/Pastas</strong>: organização digital com extensões.</li>
     </ul>
   </div>
+</div>
 
-  <!-- ATIVIDADE -->
-  <div class="card border-secondary mt-3">
+<!-- SLIDE 6 — Atividade -->
+<div class="slide-section">
+  <div class="card border-secondary">
     <div class="card-header bg-secondary text-white fw-semibold"><i class="bi bi-pencil me-1"></i>Atividade</div>
     <div class="card-body">
       <ol>
