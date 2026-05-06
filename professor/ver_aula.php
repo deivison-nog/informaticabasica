@@ -34,6 +34,17 @@ include __DIR__ . '/../includes/header.php';
   .slide-progress-bar { height:3px; border-radius:3px; transition:width .3s; }
   .lesson-image { max-width:100%; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,.14); }
   .image-placeholder { background:linear-gradient(135deg,#f8f9fa,#e9ecef); border:2px dashed #ced4da; border-radius:8px; }
+  .slide-viewer-header { display:flex; align-items:center; justify-content:flex-end; margin-bottom:.4rem; }
+  /* Fullscreen styles */
+  .slide-viewer-bg:fullscreen,
+  .slide-viewer-bg:-webkit-full-screen {
+    border-radius:0; padding:1.5rem 2rem; overflow:auto;
+    display:flex; flex-direction:column;
+  }
+  .slide-viewer-bg:fullscreen .slide-section,
+  .slide-viewer-bg:-webkit-full-screen .slide-section {
+    min-height:calc(100vh - 180px); flex:1;
+  }
 </style>
 
 <a href="aulas.php" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
@@ -41,6 +52,12 @@ include __DIR__ . '/../includes/header.php';
 <p class="text-muted small mb-3"><i class="bi bi-keyboard me-1"></i>Use as setas ← → do teclado ou os botões para navegar entre os slides.</p>
 
 <div class="slide-viewer-bg" id="slideViewer">
+  <!-- Fullscreen button -->
+  <div class="slide-viewer-header">
+    <button class="btn btn-outline-light btn-sm" id="fsBtn" title="Tela cheia (F)">
+      <i class="bi bi-fullscreen"></i>
+    </button>
+  </div>
   <div class="slide-progress">
     <div class="slide-progress-bar bg-<?= $cor ?>" id="progressBar" style="width:0%"></div>
   </div>
@@ -70,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const prevBtn  = document.getElementById('prevBtn');
   const nextBtn  = document.getElementById('nextBtn');
   const dotsWrap = document.getElementById('slideDots');
+  const fsBtn    = document.getElementById('fsBtn');
   let cur = 0;
 
   sections.forEach(function (_, i) {
@@ -101,9 +119,31 @@ document.addEventListener('DOMContentLoaded', function () {
   prevBtn.addEventListener('click', function () { go(cur - 1); });
   nextBtn.addEventListener('click', function () { go(cur + 1); });
 
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      viewer.requestFullscreen().catch(function () {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  fsBtn.addEventListener('click', toggleFullscreen);
+
+  document.addEventListener('fullscreenchange', function () {
+    const icon = fsBtn.querySelector('i');
+    if (document.fullscreenElement) {
+      icon.className = 'bi bi-fullscreen-exit';
+      fsBtn.title = 'Sair da tela cheia (Esc)';
+    } else {
+      icon.className = 'bi bi-fullscreen';
+      fsBtn.title = 'Tela cheia (F)';
+    }
+  });
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(cur + 1);
     if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(cur - 1);
+    if (e.key === 'f' || e.key === 'F') toggleFullscreen();
   });
 
   sections[0].classList.add('active');
