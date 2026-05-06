@@ -22,7 +22,22 @@ function currentUser(): ?array {
 }
 
 function rootPath(): string {
-    // Calculate relative path back to root from current script's directory
-    $depth = substr_count(str_replace('\\', '/', $_SERVER['SCRIPT_NAME']), '/') - 1;
-    return str_repeat('../', max(0, $depth));
+    // Returns absolute URL path to the app root, works for both root and subdirectory deployments.
+    // All authenticated pages live exactly one directory deep inside the app
+    // (admin/, professor/, aluno/). Pages at app root depth (index.php, logout.php) need
+    // their own directory as the base.
+    $uri   = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+    $parts = explode('/', ltrim($uri, '/'));
+    array_pop($parts); // remove filename
+
+    // If the last directory segment is a known role folder, pop it to reach the app root.
+    $knownDirs = ['admin', 'professor', 'aluno'];
+    if (!empty($parts) && in_array(end($parts), $knownDirs, true)) {
+        array_pop($parts);
+    }
+
+    if (empty($parts)) {
+        return '/';
+    }
+    return '/' . implode('/', $parts) . '/';
 }

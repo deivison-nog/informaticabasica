@@ -76,3 +76,57 @@ function isQuestionarioPublicado(int $aulaId): bool {
     $pub = loadPublicacoes();
     return (bool)($pub['questionarios'][$aulaId] ?? false);
 }
+
+// ── Score helpers ──────────────────────────────────────────────────────────────
+
+function loadScores(): array {
+    $file = DATA_DIR . 'scores.json';
+    if (!file_exists($file)) return [];
+    return json_decode(file_get_contents($file), true) ?? [];
+}
+
+function saveScores(array $scores): void {
+    file_put_contents(DATA_DIR . 'scores.json', json_encode($scores, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
+/**
+ * Save $acertos for $cpf on quiz $aulaId, keeping the best (highest) score.
+ */
+function saveBestScore(string $cpf, int $aulaId, int $acertos, int $total): void {
+    $scores = loadScores();
+    $prev = $scores[$cpf][$aulaId]['acertos'] ?? -1;
+    if ($acertos > $prev) {
+        $scores[$cpf][$aulaId] = ['acertos' => $acertos, 'total' => $total];
+        saveScores($scores);
+    }
+}
+
+/**
+ * Returns ranked list of alunos with total best-score points across all quizzes.
+ * Each entry: ['nome' => ..., 'cpf' => ..., 'pontos' => ..., 'detalhe' => [...]]
+ */
+function getRanking(): array {
+    $scores = loadScores();
+    $users  = array_filter(loadUsers(), fn($u) => $u['role'] === 'aluno');
+    $ranking = [];
+    foreach ($users as $u) {
+        $cpf    = $u['cpf'];
+        $pontos = 0;
+        $detalhe = [];
+        for ($a = 1; $a <= 4; $a++) {
+            $entry = $scores[$cpf][$a] ?? null;
+            $detalhe[$a] = $entry;
+            if ($entry) {
+                $pontos += $entry['acertos'];
+            }
+        }
+        $ranking[] = [
+            'nome'    => $u['nome'],
+            'cpf'     => $cpf,
+            'pontos'  => $pontos,
+            'detalhe' => $detalhe,
+        ];
+    }
+    usort($ranking, fn($a, $b) => $b['pontos'] <=> $a['pontos']);
+    return $ranking;
+}

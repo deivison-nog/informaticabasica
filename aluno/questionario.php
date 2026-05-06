@@ -35,7 +35,14 @@ if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
                 'opcoes'   => $pergunta['opcoes'],
             ];
         }
-        $resultados['_score'] = ['acertos' => $acertos, 'total' => count($quiz['perguntas'])];
+        $total = count($quiz['perguntas']);
+        $resultados['_score'] = ['acertos' => $acertos, 'total' => $total];
+
+        // Persist best score for ranking
+        $userCpf = $_SESSION['user']['cpf'] ?? '';
+        if ($userCpf !== '') {
+            saveBestScore($userCpf, $id, $acertos, $total);
+        }
     }
 
     include __DIR__ . '/../includes/header.php';
@@ -44,13 +51,21 @@ if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
     <h4 class="fw-bold mb-4"><?= htmlspecialchars($quiz['titulo']) ?></h4>
 
     <?php if ($resultados !== null):
-        $score = $resultados['_score'];
-        $pct   = $score['total'] > 0 ? round($score['acertos'] / $score['total'] * 100) : 0;
-        $cls   = $score['acertos'] === $score['total'] ? 'success' : ($pct >= 50 ? 'warning' : 'danger');
+        $score   = $resultados['_score'];
+        $pct     = $score['total'] > 0 ? round($score['acertos'] / $score['total'] * 100) : 0;
+        $cls     = $score['acertos'] === $score['total'] ? 'success' : ($pct >= 50 ? 'warning' : 'danger');
+        $userCpf = $_SESSION['user']['cpf'] ?? '';
+        $allScores = loadScores();
+        $best    = $allScores[$userCpf][$id] ?? null;
+        $bestPct = $best ? round($best['acertos'] / $best['total'] * 100) : $pct;
     ?>
-    <div class="alert alert-<?= $cls ?> fw-semibold mb-4">
+    <div class="alert alert-<?= $cls ?> fw-semibold mb-2">
       <i class="bi bi-bar-chart-fill me-1"></i>
-      Você acertou <?= $score['acertos'] ?> de <?= $score['total'] ?> questões (<?= $pct ?>%).
+      Esta tentativa: <?= $score['acertos'] ?> de <?= $score['total'] ?> questões (<?= $pct ?>%).
+    </div>
+    <div class="alert alert-info mb-4 small">
+      <i class="bi bi-trophy-fill me-1"></i>
+      Sua <strong>melhor nota</strong> neste questionário: <?= $best['acertos'] ?? $score['acertos'] ?>/<?= $best['total'] ?? $score['total'] ?> (<?= $bestPct ?>%) — salva no ranking.
     </div>
     <?php foreach ($quiz['perguntas'] as $qi => $pergunta):
         $r = $resultados[$qi];
@@ -116,24 +131,36 @@ if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
 
 $pageTitle = 'Aluno — Questionários';
 include __DIR__ . '/../includes/header.php';
+$userCpf   = $_SESSION['user']['cpf'] ?? '';
+$allScores = loadScores();
 ?>
 <h4 class="fw-bold mb-4"><i class="bi bi-patch-question me-2"></i>Questionários</h4>
 <div class="row g-3">
   <?php foreach ($aulas as $id => $a):
     $disponivel = isQuestionarioPublicado($id);
+    $best       = $allScores[$userCpf][$id] ?? null;
   ?>
   <div class="col-md-6">
     <div class="card h-100 <?= !$disponivel ? 'opacity-50' : '' ?>">
       <div class="card-header bg-<?= $a['cor'] ?> text-white fw-semibold"><?= $a['titulo'] ?></div>
-      <div class="card-body d-flex align-items-center justify-content-between">
-        <?php if ($disponivel): ?>
-          <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponível</span>
-          <a href="questionario.php?id=<?= $id ?>" class="btn btn-<?= $a['cor'] ?> btn-sm">
-            <i class="bi bi-pencil-square me-1"></i>Fazer Questionário
-          </a>
-        <?php else: ?>
-          <span class="badge bg-secondary"><i class="bi bi-lock me-1"></i>Não liberado</span>
-          <span class="text-muted small">Aguarde o professor</span>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <?php if ($disponivel): ?>
+            <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponível</span>
+            <a href="questionario.php?id=<?= $id ?>" class="btn btn-<?= $a['cor'] ?> btn-sm">
+              <i class="bi bi-pencil-square me-1"></i><?= $best ? 'Refazer' : 'Fazer' ?> Questionário
+            </a>
+          <?php else: ?>
+            <span class="badge bg-secondary"><i class="bi bi-lock me-1"></i>Não liberado</span>
+            <span class="text-muted small">Aguarde o professor</span>
+          <?php endif; ?>
+        </div>
+        <?php if ($best): ?>
+        <div class="small text-muted">
+          <i class="bi bi-trophy-fill text-warning me-1"></i>
+          Melhor nota: <strong><?= $best['acertos'] ?>/<?= $best['total'] ?></strong>
+          (<?= round($best['acertos'] / $best['total'] * 100) ?>%)
+        </div>
         <?php endif; ?>
       </div>
     </div>
