@@ -72,10 +72,10 @@ include __DIR__ . '/../includes/header.php';
     </div>
   </form>
 
-  <form method="post">
+  <form method="post" id="slideForm">
     <input type="hidden" name="aula" value="<?= $aula ?>">
     <label class="form-label fw-semibold">Conteúdo HTML dos slides da <?= htmlspecialchars($aulas[$aula]) ?></label>
-    <textarea name="conteudo" class="form-control font-monospace" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
+    <textarea name="conteudo" id="conteudoEditor" class="form-control font-monospace" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
     <p class="text-muted small mt-2 mb-0">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação.</p>
     <div class="d-flex gap-2 mt-3 flex-wrap">
       <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Salvar Alterações</button>
@@ -86,4 +86,22 @@ include __DIR__ . '/../includes/header.php';
     </div>
   </form>
 </div>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  tinymce.init({
+    selector: '#conteudoEditor',
+    height: 540,
+    menubar: false,
+    branding: false,
+    plugins: 'lists link table code preview fullscreen',
+    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link | code preview fullscreen',
+    content_style: 'body { font-family: Arial, sans-serif; font-size: 15px; }'
+  });
+
+  document.getElementById('slideForm').addEventListener('submit', function () {
+    if (window.tinymce) tinymce.triggerSave();
+  });
+});
+</script>
 <?php include __DIR__ . '/../includes/footer.php'; ?>
