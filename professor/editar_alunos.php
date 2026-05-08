@@ -10,9 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
     $alunoId = (int)$_POST['aluno_id'];
     $cpf     = preg_replace('/\D/', '', $_POST['cpf'] ?? '');
     $nome    = trim($_POST['nome'] ?? '');
+    $senha   = trim($_POST['senha'] ?? '');
 
-    if (strlen($cpf) !== 11 || $nome === '') {
-        $msg = 'Nome e CPF válido são obrigatórios.';
+    if (strlen($cpf) !== 11 || $nome === '' || $senha === '') {
+        $msg = 'Nome, CPF válido e senha são obrigatórios.';
         $msgType = 'danger';
     } else {
         $users = loadUsers();
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
             } else {
                 $users[$idx]['nome'] = $nome;
                 $users[$idx]['cpf'] = $cpf;
+                $users[$idx]['senha'] = $senha;
                 saveUsers($users);
                 $msg = 'Dados do aluno atualizados com sucesso.';
                 $msgType = 'success';
@@ -54,6 +56,9 @@ $alunos = array_values(array_filter(loadUsers(), fn($u) => ($u['role'] ?? '') ==
 include __DIR__ . '/../includes/header.php';
 ?>
 <h4 class="fw-bold mb-4"><i class="bi bi-person-gear me-2"></i>Editar Dados dos Alunos</h4>
+<div class="mb-3">
+  <a href="add_aluno.php" class="btn btn-outline-primary"><i class="bi bi-person-plus me-1"></i>Adicionar Aluno</a>
+</div>
 <?php if ($msg): ?>
   <div class="alert alert-<?= $msgType ?> py-2"><?= htmlspecialchars($msg) ?></div>
 <?php endif; ?>
@@ -68,6 +73,7 @@ include __DIR__ . '/../includes/header.php';
         <tr>
           <th style="min-width:220px;">Nome</th>
           <th style="min-width:180px;">CPF</th>
+          <th style="min-width:180px;">Senha</th>
           <th style="width:140px;">Ação</th>
         </tr>
       </thead>
@@ -84,7 +90,10 @@ include __DIR__ . '/../includes/header.php';
                      value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $a['cpf'])) ?>" required>
           </td>
           <td>
-              <button class="btn btn-primary btn-sm w-100"><i class="bi bi-save me-1"></i>Salvar</button>
+              <input type="text" name="senha" class="form-control form-control-sm" value="<?= htmlspecialchars($a['senha'] ?? '') ?>" required>
+          </td>
+          <td>
+              <button class="btn btn-primary btn-sm w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
             </form>
           </td>
         </tr>
