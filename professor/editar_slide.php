@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const imageButton = document.getElementById('btnImage');
   const imageInput = document.getElementById('editorImageInput');
   const uploadMsg = document.getElementById('editorUploadMsg');
+  const aulaId = <?= json_encode($aula, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 
   function sanitizeClientHtml(rawHtml) {
     const template = document.createElement('template');
@@ -318,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
     uploadMsg.textContent = 'Enviando imagem...';
 
     const formData = new FormData();
-    formData.append('aula', '<?= $aula ?>');
+    formData.append('aula', String(aulaId));
     formData.append('imagem', file);
 
     try {

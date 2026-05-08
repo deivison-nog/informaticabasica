@@ -45,7 +45,7 @@ if (!is_dir($destDir) && !mkdir($destDir, 0755, true)) {
     respondJson(500, ['ok' => false, 'message' => 'Não foi possível preparar a pasta de imagens.']);
 }
 
-$filename = 'slide_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $allowed[$mime];
+$filename = 'slide_' . date('Ymd_His') . '_' . bin2hex(random_bytes(8)) . '.' . $allowed[$mime];
 $destFile = $destDir . '/' . $filename;
 
 if (!move_uploaded_file($file['tmp_name'], $destFile)) {
