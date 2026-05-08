@@ -131,7 +131,7 @@ include __DIR__ . '/../includes/header.php';
     </div>
     <input type="file" id="editorImageInput" accept="image/png,image/jpeg,image/webp,image/gif" class="d-none">
     <textarea name="conteudo" id="conteudoEditor" class="d-none" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
-    <p id="editorUploadMsg" class="small mt-2 mb-0 text-muted">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação e use o botão <i class="bi bi-image"></i> para inserir fotos.</p>
+    <p id="editorUploadMsg" class="small mt-2 mb-0 text-muted" aria-live="polite">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação e use o botão <i class="bi bi-image"></i> para inserir fotos.</p>
     <div class="d-flex gap-2 mt-3 flex-wrap">
       <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Salvar Alterações</button>
       <button type="submit" name="reset_slide" value="1" class="btn btn-outline-danger" onclick="return confirm('Restaurar texto original desta aula?')">
@@ -380,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function () {
   visualEditor.addEventListener('click', function (event) {
     const clickedImage = event.target instanceof Element ? event.target.closest('img') : null;
     if (clickedImage && visualEditor.contains(clickedImage)) {
-      event.preventDefault();
       selectImage(clickedImage);
       return;
     }
