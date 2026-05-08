@@ -92,7 +92,8 @@ include __DIR__ . '/../includes/header.php';
                      value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $a['cpf'])) ?>" required>
           </td>
           <td>
-              <input type="password" name="senha" class="form-control form-control-sm" placeholder="Deixe em branco para manter">
+              <label for="senha_<?= (int)$a['id'] ?>" class="visually-hidden">Senha</label>
+              <input type="password" id="senha_<?= (int)$a['id'] ?>" name="senha" class="form-control form-control-sm" placeholder="Deixe em branco para manter">
           </td>
           <td>
               <button class="btn btn-primary btn-sm w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
