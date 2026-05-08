@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
     $nome    = trim($_POST['nome'] ?? '');
     $senha   = trim($_POST['senha'] ?? '');
 
-    if (strlen($cpf) !== 11 || $nome === '' || $senha === '') {
-        $msg = 'Nome, CPF válido e senha são obrigatórios.';
+    if (strlen($cpf) !== 11 || $nome === '') {
+        $msg = 'Nome e CPF válido são obrigatórios.';
         $msgType = 'danger';
     } else {
         $users = loadUsers();
@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
             } else {
                 $users[$idx]['nome'] = $nome;
                 $users[$idx]['cpf'] = $cpf;
-                $users[$idx]['senha'] = $senha;
+                if ($senha !== '') {
+                    $users[$idx]['senha'] = $senha;
+                }
                 saveUsers($users);
                 $msg = 'Dados do aluno atualizados com sucesso.';
                 $msgType = 'success';
@@ -90,7 +92,7 @@ include __DIR__ . '/../includes/header.php';
                      value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $a['cpf'])) ?>" required>
           </td>
           <td>
-              <input type="password" name="senha" class="form-control form-control-sm" placeholder="Digite a nova senha" required>
+              <input type="password" name="senha" class="form-control form-control-sm" placeholder="Deixe em branco para manter">
           </td>
           <td>
               <button class="btn btn-primary btn-sm w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
