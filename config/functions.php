@@ -130,3 +130,60 @@ function getRanking(): array {
     usort($ranking, fn($a, $b) => $b['pontos'] <=> $a['pontos']);
     return $ranking;
 }
+
+/**
+ * Sanitize HTML used in editable slides to reduce XSS/code-injection risks.
+ */
+function sanitizeSlideOverrideHtml(string $html): string {
+    $html = preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $html);
+
+    if (!class_exists('DOMDocument')) {
+        return trim($html);
+    }
+
+    $allowedTags = [
+        'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'strong', 'em', 'ul', 'ol', 'li',
+        'table', 'thead', 'tbody', 'tr', 'th', 'td', 'figure', 'figcaption', 'img', 'span',
+        'i', 'br', 'hr', 'small', 'code', 'a'
+    ];
+    $allowedAttrs = ['class', 'id', 'src', 'alt', 'href', 'title'];
+
+    $prev = libxml_use_internal_errors(true);
+    $dom = new DOMDocument();
+    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+    libxml_use_internal_errors($prev);
+
+    $all = $dom->getElementsByTagName('*');
+    $nodes = [];
+    foreach ($all as $n) $nodes[] = $n; // avoid live NodeList issues during mutation
+
+    foreach ($nodes as $node) {
+        $tag = strtolower($node->nodeName);
+        if (!in_array($tag, $allowedTags, true)) {
+            $text = $dom->createTextNode($node->textContent ?? '');
+            if ($node->parentNode) {
+                $node->parentNode->replaceChild($text, $node);
+            }
+            continue;
+        }
+
+        if ($node->hasAttributes()) {
+            $remove = [];
+            foreach ($node->attributes as $attr) {
+                $name = strtolower($attr->name);
+                $value = trim($attr->value);
+                $disallowedAttr = !in_array($name, $allowedAttrs, true) || str_starts_with($name, 'on');
+                $unsafeLink = in_array($name, ['href', 'src'], true) && preg_match('/^(javascript:|data:)/i', $value);
+                if ($disallowedAttr || $unsafeLink) {
+                    $remove[] = $attr->name;
+                }
+            }
+            foreach ($remove as $attrName) {
+                $node->removeAttribute($attrName);
+            }
+        }
+    }
+
+    return trim($dom->saveHTML() ?: '');
+}

@@ -2,16 +2,6 @@
 require_once __DIR__ . '/../includes/auth.php';
 requireRole('professor');
 
-function sanitizeSlideHtmlForRender(string $content): string {
-    $content = preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $content);
-    $content = preg_replace('#<script\b[^>]*>[\s\S]*?</script>#i', '', $content);
-    $content = preg_replace('/\son\w+\s*=\s*"[^"]*"/i', '', $content);
-    $content = preg_replace("/\son\w+\s*=\s*'[^']*'/i", '', $content);
-    $content = preg_replace('/\son\w+\s*=\s*[^\s>]+/i', '', $content);
-    $content = preg_replace('/javascript:/i', '', $content);
-    return $content;
-}
-
 $aulas = [
     1 => ['titulo' => 'Aula 1 — Conceitos Básicos de Informática',    'cor' => 'primary'],
     2 => ['titulo' => 'Aula 2 — Internet, E-mail e Arquivos',         'cor' => 'info'],
@@ -89,7 +79,7 @@ include __DIR__ . '/../includes/header.php';
   </div>
 
   <?php if (file_exists($overrideSlideFile)): ?>
-    <?= sanitizeSlideHtmlForRender(file_get_contents($overrideSlideFile)) ?>
+    <?= sanitizeSlideOverrideHtml((string)file_get_contents($overrideSlideFile)) ?>
   <?php else: ?>
     <?php include __DIR__ . '/../content/aula' . $id . '.php'; ?>
   <?php endif; ?>

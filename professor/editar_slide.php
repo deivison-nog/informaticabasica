@@ -2,20 +2,9 @@
 require_once __DIR__ . '/../includes/auth.php';
 requireRole('professor');
 
-function sanitizeSlideHtml(string $content): string {
-    $content = preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $content);
-    $content = preg_replace('#<script\b[^>]*>[\s\S]*?</script>#i', '', $content);
-    return trim($content);
-}
-
-function hasUnsafeSlideHtml(string $content): bool {
-    return (bool)preg_match('/<\?|<script\b|on\w+\s*=|javascript:/i', $content);
-}
-
 function contentWithoutPhpBlocks(string $path): string {
     if (!file_exists($path)) return '';
-    $raw = file_get_contents($path);
-    return trim(preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $raw));
+    return sanitizeSlideOverrideHtml((string)file_get_contents($path));
 }
 
 $aulas = [
@@ -41,13 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $msg = 'Texto dos slides restaurado para o conteúdo original.';
         $msgType = 'warning';
     } else {
-        $conteudoRaw = (string)($_POST['conteudo'] ?? '');
-        $conteudo = sanitizeSlideHtml($conteudoRaw);
+        $conteudo = sanitizeSlideOverrideHtml((string)($_POST['conteudo'] ?? ''));
         if ($conteudo === '') {
-            $msg = 'Informe algum conteúdo para salvar.';
-            $msgType = 'danger';
-        } elseif (hasUnsafeSlideHtml($conteudoRaw)) {
-            $msg = 'Conteúdo bloqueado por segurança. Remova scripts, eventos inline ou código PHP.';
+            $msg = 'Conteúdo inválido. Revise o texto dos slides e tente novamente.';
             $msgType = 'danger';
         } else {
             if (!is_dir($overrideDir)) {
