@@ -26,13 +26,11 @@ if (empty($_FILES['imagem']) || $_FILES['imagem']['error'] !== UPLOAD_ERR_OK) {
 
 $file = $_FILES['imagem'];
 
-// Validate MIME type (only images)
+// Validate MIME type and real image structure (PNG only, matching slide slot format).
 $finfo = new finfo(FILEINFO_MIME_TYPE);
 $mime  = $finfo->file($file['tmp_name']);
-$allowed = ['image/png' => 'png', 'image/jpeg' => 'jpg', 'image/gif' => 'gif', 'image/webp' => 'webp'];
-
-if (!isset($allowed[$mime])) {
-    $_SESSION['upload_erro'] = 'Tipo de arquivo não permitido. Use PNG, JPG, GIF ou WEBP.';
+if ($mime !== 'image/png' || @getimagesize($file['tmp_name']) === false) {
+    $_SESSION['upload_erro'] = 'Tipo de arquivo não permitido. Envie uma imagem PNG válida.';
     header('Location: ver_aula.php?id=' . $aulaId);
     exit;
 }

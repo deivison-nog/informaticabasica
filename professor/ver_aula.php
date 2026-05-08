@@ -2,6 +2,16 @@
 require_once __DIR__ . '/../includes/auth.php';
 requireRole('professor');
 
+function sanitizeSlideHtmlForRender(string $content): string {
+    $content = preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $content);
+    $content = preg_replace('#<script\b[^>]*>[\s\S]*?</script>#i', '', $content);
+    $content = preg_replace('/\son\w+\s*=\s*"[^"]*"/i', '', $content);
+    $content = preg_replace("/\son\w+\s*=\s*'[^']*'/i", '', $content);
+    $content = preg_replace('/\son\w+\s*=\s*[^\s>]+/i', '', $content);
+    $content = preg_replace('/javascript:/i', '', $content);
+    return $content;
+}
+
 $aulas = [
     1 => ['titulo' => 'Aula 1 — Conceitos Básicos de Informática',    'cor' => 'primary'],
     2 => ['titulo' => 'Aula 2 — Internet, E-mail e Arquivos',         'cor' => 'info'],
@@ -79,7 +89,7 @@ include __DIR__ . '/../includes/header.php';
   </div>
 
   <?php if (file_exists($overrideSlideFile)): ?>
-    <?= file_get_contents($overrideSlideFile) ?>
+    <?= sanitizeSlideHtmlForRender(file_get_contents($overrideSlideFile)) ?>
   <?php else: ?>
     <?php include __DIR__ . '/../content/aula' . $id . '.php'; ?>
   <?php endif; ?>
@@ -191,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
   <div class="card-body">
     <p class="text-muted small mb-3">
-      Envie as imagens para cada slot da aula. Formatos aceitos: PNG, JPG, GIF, WEBP (máx. 5 MB).
+      Envie as imagens para cada slot da aula. Formato aceito: PNG (máx. 5 MB).
       A imagem substituirá o slot correspondente nos slides.
     </p>
     <div class="row g-3">
@@ -220,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <form method="post" action="upload_imagem.php" enctype="multipart/form-data" class="d-flex gap-2 align-items-center flex-wrap">
               <input type="hidden" name="aula_id" value="<?= $id ?>">
               <input type="hidden" name="slot" value="<?= htmlspecialchars($slot) ?>">
-              <input type="file" name="imagem" accept="image/*" class="form-control form-control-sm" required style="min-width:0;flex:1;">
+              <input type="file" name="imagem" accept="image/png" class="form-control form-control-sm" required style="min-width:0;flex:1;">
               <button type="submit" class="btn btn-outline-secondary btn-sm" title="Enviar imagem">
                 <i class="bi bi-upload"></i>
               </button>

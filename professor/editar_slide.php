@@ -3,8 +3,13 @@ require_once __DIR__ . '/../includes/auth.php';
 requireRole('professor');
 
 function sanitizeSlideHtml(string $content): string {
-    // Block PHP execution payloads in edited slide text.
-    return trim(preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $content));
+    $content = preg_replace('/<\?(?:php|=)?[\s\S]*?\?>/i', '', $content);
+    $content = preg_replace('#<script\b[^>]*>[\s\S]*?</script>#i', '', $content);
+    return trim($content);
+}
+
+function hasUnsafeSlideHtml(string $content): bool {
+    return (bool)preg_match('/<\?|<script\b|on\w+\s*=|javascript:/i', $content);
 }
 
 function contentWithoutPhpBlocks(string $path): string {
@@ -36,15 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $msg = 'Texto dos slides restaurado para o conteúdo original.';
         $msgType = 'warning';
     } else {
-        $conteudo = sanitizeSlideHtml((string)($_POST['conteudo'] ?? ''));
+        $conteudoRaw = (string)($_POST['conteudo'] ?? '');
+        $conteudo = sanitizeSlideHtml($conteudoRaw);
         if ($conteudo === '') {
             $msg = 'Informe algum conteúdo para salvar.';
+            $msgType = 'danger';
+        } elseif (hasUnsafeSlideHtml($conteudoRaw)) {
+            $msg = 'Conteúdo bloqueado por segurança. Remova scripts, eventos inline ou código PHP.';
             $msgType = 'danger';
         } else {
             if (!is_dir($overrideDir)) {
                 mkdir($overrideDir, 0755, true);
             }
-            file_put_contents($overrideFile, $conteudo . PHP_EOL);
+            file_put_contents($overrideFile, $conteudo . "\n");
             $msg = 'Texto dos slides salvo com sucesso.';
             $msgType = 'success';
         }

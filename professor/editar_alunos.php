@@ -9,11 +9,10 @@ $msgType = 'info';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
     $alunoId = (int)$_POST['aluno_id'];
     $cpf     = preg_replace('/\D/', '', $_POST['cpf'] ?? '');
-    $senha   = trim($_POST['senha'] ?? '');
     $nome    = trim($_POST['nome'] ?? '');
 
-    if (strlen($cpf) !== 11 || $senha === '' || $nome === '') {
-        $msg = 'Nome, CPF válido e senha são obrigatórios.';
+    if (strlen($cpf) !== 11 || $nome === '') {
+        $msg = 'Nome e CPF válido são obrigatórios.';
         $msgType = 'danger';
     } else {
         $users = loadUsers();
@@ -43,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
             } else {
                 $users[$idx]['nome'] = $nome;
                 $users[$idx]['cpf'] = $cpf;
-                $users[$idx]['senha'] = $senha;
                 saveUsers($users);
                 $msg = 'Dados do aluno atualizados com sucesso.';
                 $msgType = 'success';
@@ -70,8 +68,7 @@ include __DIR__ . '/../includes/header.php';
         <tr>
           <th style="min-width:220px;">Nome</th>
           <th style="min-width:180px;">CPF</th>
-          <th style="min-width:180px;">Senha</th>
-          <th style="width:120px;">Ação</th>
+          <th style="width:140px;">Ação</th>
         </tr>
       </thead>
       <tbody>
@@ -85,9 +82,6 @@ include __DIR__ . '/../includes/header.php';
           <td>
               <input type="text" name="cpf" class="form-control form-control-sm cpf-input" maxlength="14"
                      value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $a['cpf'])) ?>" required>
-          </td>
-          <td>
-              <input type="text" name="senha" class="form-control form-control-sm" value="<?= htmlspecialchars($a['senha']) ?>" required>
           </td>
           <td>
               <button class="btn btn-primary btn-sm w-100"><i class="bi bi-save me-1"></i>Salvar</button>
