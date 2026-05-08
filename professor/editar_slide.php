@@ -83,6 +83,10 @@ include __DIR__ . '/../includes/header.php';
     border-radius:8px;
     box-shadow:0 2px 12px rgba(0,0,0,.14);
   }
+  .slide-editor-image-selected {
+    outline:3px solid #0d6efd;
+    outline-offset:4px;
+  }
 </style>
 <h4 class="fw-bold mb-3"><i class="bi bi-pencil-square me-2"></i>Editar Texto dos Slides</h4>
 <?php if ($msg): ?>
@@ -148,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const imageInput = document.getElementById('editorImageInput');
   const uploadMsg = document.getElementById('editorUploadMsg');
   const aulaId = <?= json_encode($aula, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+  let selectedImage = null;
 
   function sanitizeClientHtml(rawHtml) {
     const template = document.createElement('template');
@@ -171,12 +176,35 @@ document.addEventListener('DOMContentLoaded', function () {
     return template.innerHTML;
   }
 
+  function clearSelectedImage() {
+    if (!selectedImage) return;
+    selectedImage.classList.remove('slide-editor-image-selected');
+    selectedImage = null;
+  }
+
+  function selectImage(img) {
+    if (!(img instanceof HTMLImageElement) || !visualEditor.contains(img)) return;
+    clearSelectedImage();
+    selectedImage = img;
+    selectedImage.classList.add('slide-editor-image-selected');
+    visualEditor.focus();
+  }
+
+  function prepareEditorImage(img) {
+    img.classList.add('slide-editor-image');
+    img.removeAttribute('width');
+    img.removeAttribute('height');
+    img.setAttribute('draggable', 'false');
+  }
+
   function normalizeSlideMedia() {
     visualEditor.querySelectorAll('img').forEach(function (img) {
-      img.classList.add('slide-editor-image');
-      img.removeAttribute('width');
-      img.removeAttribute('height');
+      prepareEditorImage(img);
     });
+
+    if (selectedImage && !visualEditor.contains(selectedImage)) {
+      clearSelectedImage();
+    }
   }
 
   visualEditor.innerHTML = sanitizeClientHtml(hiddenTextarea.value);
@@ -336,8 +364,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const img = document.createElement('img');
       img.src = payload.url;
       img.alt = file.name || 'Imagem do slide';
-      img.className = 'slide-editor-image';
+      prepareEditorImage(img);
       insertNodeAtSelection(img);
+      selectImage(img);
       uploadMsg.className = 'small mt-2 mb-0 text-success';
       uploadMsg.textContent = 'Imagem inserida com sucesso.';
     } catch (error) {
@@ -346,6 +375,30 @@ document.addEventListener('DOMContentLoaded', function () {
     } finally {
       imageInput.value = '';
     }
+  });
+
+  visualEditor.addEventListener('click', function (event) {
+    const clickedImage = event.target instanceof Element ? event.target.closest('img') : null;
+    if (clickedImage && visualEditor.contains(clickedImage)) {
+      event.preventDefault();
+      selectImage(clickedImage);
+      return;
+    }
+
+    clearSelectedImage();
+  });
+
+  visualEditor.addEventListener('keydown', function (event) {
+    if (!selectedImage) return;
+    if (event.key !== 'Delete' && event.key !== 'Backspace') return;
+
+    event.preventDefault();
+    const imageToRemove = selectedImage;
+    clearSelectedImage();
+    imageToRemove.remove();
+    syncEditorToTextarea();
+    uploadMsg.className = 'small mt-2 mb-0 text-muted';
+    uploadMsg.textContent = 'Imagem removida do slide.';
   });
 
   visualEditor.addEventListener('input', syncEditorToTextarea);
