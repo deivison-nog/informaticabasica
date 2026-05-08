@@ -19,16 +19,7 @@
   <p>
     Para acessar a internet, você precisa de um <strong>provedor de internet (ISP)</strong> e de um
     dispositivo com um <strong>navegador</strong>.
-  </p>
-
-  <figure class="text-center my-4">
-    <img src="../images/aula2/foto01.png"
-         alt="Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Mapa ilustrativo da internet: cabos submarinos, roteadores e dispositivos conectados.</figcaption>
-  </figure>
-</div>
+  </p></div>
 
 <!-- SLIDE 2 — Conceitos + Cuidados -->
 <div class="slide-section">
@@ -42,17 +33,7 @@
     <li><strong>Download</strong>: <em>baixar</em> arquivos da internet para o seu dispositivo.</li>
     <li><strong>Upload</strong>: <em>enviar</em> arquivos do seu dispositivo para a internet.</li>
     <li><strong>Link (hiperlink)</strong>: texto ou imagem clicável que leva a outra página.</li>
-  </ul>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula2/foto02.png"
-         alt="Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Captura de tela de um navegador com a barra de endereço, botão de voltar e abas em destaque.</figcaption>
-  </figure>
-
-  <h6 class="fw-semibold">Cuidados ao navegar</h6>
+  </ul><h6 class="fw-semibold">Cuidados ao navegar</h6>
   <ul>
     <li>Verifique se o site usa <strong>HTTPS</strong> (cadeado na barra do navegador).</li>
     <li>Não clique em links suspeitos ou pop-ups.</li>
@@ -84,17 +65,7 @@
         <tr><td><strong>Anexo</strong></td><td>Arquivos enviados junto à mensagem.</td></tr>
       </tbody>
     </table>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula2/foto03.png"
-         alt="Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Tela de composição de e-mail com os campos Para, CC, Assunto, Corpo e Anexo destacados.</figcaption>
-  </figure>
-
-  <h6 class="fw-semibold">Boas práticas de e-mail</h6>
+  </div><h6 class="fw-semibold">Boas práticas de e-mail</h6>
   <ul>
     <li>Escreva de forma clara e objetiva.</li>
     <li>Use um assunto que resuma bem o conteúdo.</li>
@@ -130,17 +101,7 @@
         <li class="list-group-item"><code>.zip / .rar</code> — Arquivo compactado</li>
       </ul>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula2/foto04.png"
-         alt="Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Estrutura de pastas no Windows Explorer: pastas organizadas por Documentos, Imagens, Vídeos.</figcaption>
-  </figure>
-
-  <h6 class="fw-semibold">Dicas de organização</h6>
+  </div><h6 class="fw-semibold">Dicas de organização</h6>
   <ul>
     <li>Crie pastas por projeto, disciplina ou data.</li>
     <li>Nomeie arquivos de forma descritiva. Ex: <code>Relatório_Mensal_Maio2025.docx</code></li>

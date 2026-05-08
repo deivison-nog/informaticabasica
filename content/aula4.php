@@ -18,16 +18,7 @@
   <p>
     Crimes digitais crescem a cada ano. Golpes por WhatsApp, roubo de senhas e vazamento de
     dados pessoais são problemas reais que afetam milhões de pessoas.
-  </p>
-
-  <figure class="text-center my-4">
-    <img src="../images/aula4/foto01.png"
-         alt="Ilustração de cadeado digital sobre ícones de dados (e-mail, banco, identidade)"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Ilustração de cadeado digital sobre ícones de dados (e-mail, banco, identidade).</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Ilustração de cadeado digital sobre ícones de dados (e-mail, banco, identidade).</figcaption>
-  </figure>
-</div>
+  </p></div>
 
 <!-- SLIDE 2 — Principais Ameaças Digitais -->
 <div class="slide-section">
@@ -89,16 +80,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <figure class="text-center my-4">
-    <img src="../images/aula4/foto02.png"
-         alt="Exemplo de e-mail de phishing com erros destacados (logotipo falso, link suspeito, urgência)"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Exemplo de e-mail de phishing com erros destacados (logotipo falso, link suspeito, urgência).</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Exemplo de e-mail de phishing com erros destacados (logotipo falso, link suspeito, urgência).</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 3 — Boas Práticas de Segurança -->
 <div class="slide-section">
@@ -142,16 +124,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula4/foto03.png"
-         alt="Passo a passo visual: criando uma senha forte com letras, números e símbolos"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Passo a passo visual: criando uma senha forte com letras, números e símbolos.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Passo a passo visual: criando uma senha forte com letras, números e símbolos.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 4 — Inteligência Artificial -->
 <div class="slide-section">
@@ -172,16 +145,7 @@
     <i class="bi bi-exclamation-triangle-fill me-1"></i>
     <strong>Cuidado com a IA:</strong> sempre verifique a informação gerada por IA antes de usá-la.
     A IA pode cometer erros (chamados de "alucinações"). Não confie cegamente em respostas automáticas.
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula4/foto04.png"
-         alt="Colagem de logos de ferramentas de IA populares em 2026 (ChatGPT, Gemini, Copilot)"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Colagem de logos de ferramentas de IA populares em 2026 (ChatGPT, Gemini, Copilot).</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Colagem de logos de ferramentas de IA populares em 2026 (ChatGPT, Gemini, Copilot).</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 5 — Redes Sociais e Cidadania Digital -->
 <div class="slide-section">
@@ -195,16 +159,7 @@
     <li>Respeite outras pessoas — discurso de ódio tem consequências legais.</li>
     <li>Pense antes de postar: o que vai para a internet pode ficar para sempre.</li>
     <li>Revise as configurações de privacidade das suas contas.</li>
-  </ul>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula4/foto05.png"
-         alt="Infográfico de cidadania digital: boas práticas nas redes sociais"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto05.png</code> — Infográfico de cidadania digital: boas práticas nas redes sociais.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto05.png</code> — Infográfico de cidadania digital: boas práticas nas redes sociais.</figcaption>
-  </figure>
-</div>
+  </ul></div>
 
 <!-- SLIDE 6 — Tendências 2026 -->
 <div class="slide-section">

@@ -38,16 +38,7 @@
         <li>Salvar como PDF</li>
       </ul>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula3/foto01.png"
-         alt="Captura de tela do Microsoft Word com a faixa de opções e um documento simples aberto"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Captura de tela do Microsoft Word com a faixa de opções e um documento simples aberto.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Captura de tela do Microsoft Word com a faixa de opções e um documento simples aberto.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 3 — Excel -->
 <div class="slide-section">
@@ -66,16 +57,7 @@
         <li>Filtrar e ordenar dados</li>
       </ul>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula3/foto02.png"
-         alt="Planilha do Excel com células numéricas, fórmula =SOMA() visível e um gráfico de barras"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Planilha do Excel com células numéricas, fórmula =SOMA() visível e um gráfico de barras.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Planilha do Excel com células numéricas, fórmula =SOMA() visível e um gráfico de barras.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 4 — PowerPoint -->
 <div class="slide-section">
@@ -94,16 +76,7 @@
         <li>Modo de apresentação (tela cheia)</li>
       </ul>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula3/foto03.png"
-         alt="Slide do PowerPoint com layout de título e conteúdo, painel de slides à esquerda"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Slide do PowerPoint com layout de título e conteúdo, painel de slides à esquerda.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Slide do PowerPoint com layout de título e conteúdo, painel de slides à esquerda.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 5 — Computação em Nuvem -->
 <div class="slide-section">
@@ -133,16 +106,7 @@
     <li>Compartilhamento fácil com outras pessoas</li>
     <li>Backup automático</li>
     <li>Menor uso de espaço local</li>
-  </ul>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula3/foto04.png"
-         alt="Ícone de nuvem com dispositivos (computador, tablet, celular) conectados a ela"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Ícone de nuvem com dispositivos (computador, tablet, celular) conectados a ela.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Ícone de nuvem com dispositivos (computador, tablet, celular) conectados a ela.</figcaption>
-  </figure>
-</div>
+  </ul></div>
 
 <!-- SLIDE 6 — Redes e Conectividade -->
 <div class="slide-section">
@@ -184,16 +148,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula3/foto05.png"
-         alt="Diagrama de rede doméstica: modem, roteador, computador, notebook e celular conectados"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto05.png</code> — Diagrama de rede doméstica: modem, roteador, computador, notebook e celular conectados.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto05.png</code> — Diagrama de rede doméstica: modem, roteador, computador, notebook e celular conectados.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 7 — Resumo -->
 <div class="slide-section">

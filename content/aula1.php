@@ -20,16 +20,7 @@
     Hoje em dia, a informática está presente em praticamente todas as profissões:
     médicos usam computadores para consultar prontuários, professores usam para criar material
     didático, e comerciantes para emitir notas fiscais.
-  </p>
-
-  <figure class="text-center my-4">
-    <img src="../images/aula1/foto01.png"
-         alt="Ilustração de um computador moderno com seus principais componentes indicados"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto01.png</code> — Ilustração de um computador moderno com seus principais componentes indicados.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto01.png</code> — Ilustração de um computador moderno com seus principais componentes indicados.</figcaption>
-  </figure>
-</div>
+  </p></div>
 
 <!-- SLIDE 2 — Hardware (componentes) -->
 <div class="slide-section">
@@ -51,16 +42,7 @@
         <tr><td><strong>Placa de vídeo (GPU)</strong></td><td>Processa imagens e vídeos exibidos na tela.</td></tr>
       </tbody>
     </table>
-  </div>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula1/foto02.png"
-         alt="Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto02.png</code> — Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto02.png</code> — Foto do interior de um gabinete com as peças identificadas: CPU, RAM, SSD, placa-mãe.</figcaption>
-  </figure>
-</div>
+  </div></div>
 
 <!-- SLIDE 3 — Periféricos -->
 <div class="slide-section">
@@ -81,16 +63,7 @@
   <h6 class="fw-semibold">Periféricos de Entrada e Saída</h6>
   <ul>
     <li>Pen drive</li><li>Headset</li><li>Tela touchscreen</li>
-  </ul>
-
-  <figure class="text-center my-3">
-    <img src="../images/aula1/foto03.png"
-         alt="Montagem com exemplos de periféricos de entrada, saída e entrada/saída"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto03.png</code> — Montagem com exemplos de periféricos de entrada, saída e entrada/saída.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto03.png</code> — Montagem com exemplos de periféricos de entrada, saída e entrada/saída.</figcaption>
-  </figure>
-</div>
+  </ul></div>
 
 <!-- SLIDE 4 — Software -->
 <div class="slide-section">
@@ -134,16 +107,7 @@
     <li>Administrar a memória</li>
     <li>Permitir a instalação e execução de programas</li>
     <li>Gerenciar usuários e permissões</li>
-  </ul>
-
-  <figure class="text-center my-4">
-    <img src="../images/aula1/foto04.png"
-         alt="Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS"
-         class="img-fluid rounded shadow-sm lesson-image"
-         onerror="this.closest('figure').innerHTML='<div class=\'image-placeholder p-4 rounded text-center\'><i class=\'bi bi-image fs-1 text-secondary\'></i><p class=\'mt-2 mb-0 small text-muted\'><code>foto04.png</code> — Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS.</p></div>'">
-    <figcaption class="text-muted small mt-2"><code>foto04.png</code> — Logos dos principais sistemas operacionais: Windows, Linux (Tux), macOS, Android e iOS.</figcaption>
-  </figure>
-</div>
+  </ul></div>
 
 <!-- SLIDE 6 — Resumo -->
 <div class="slide-section">
