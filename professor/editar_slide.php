@@ -77,18 +77,16 @@ include __DIR__ . '/../includes/header.php';
     <label class="form-label fw-semibold">Conteúdo HTML dos slides da <?= htmlspecialchars($aulas[$aula]) ?></label>
     <div class="border rounded overflow-hidden">
       <div class="bg-light border-bottom p-2 d-flex flex-wrap gap-1" id="wysiwygToolbar">
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="bold"><i class="bi bi-type-bold"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="italic"><i class="bi bi-type-italic"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="underline"><i class="bi bi-type-underline"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="formatBlock" data-value="h2">H2</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="formatBlock" data-value="h3">H3</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="insertUnorderedList"><i class="bi bi-list-ul"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="insertOrderedList"><i class="bi bi-list-ol"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="bold"><i class="bi bi-type-bold"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="italic"><i class="bi bi-type-italic"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="underline"><i class="bi bi-type-underline"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="h2">H2</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="h3">H3</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="ul"><i class="bi bi-list-ul"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="ol"><i class="bi bi-list-ol"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" id="btnLink"><i class="bi bi-link-45deg"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="unlink"><i class="bi bi-link"></i><i class="bi bi-slash-lg"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="removeFormat">Limpar</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="undo"><i class="bi bi-arrow-counterclockwise"></i></button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="redo"><i class="bi bi-arrow-clockwise"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="unlink"><i class="bi bi-link"></i><i class="bi bi-slash-lg"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="clear">Limpar</button>
       </div>
       <div id="conteudoEditorVisual" class="p-3" contenteditable="true" style="min-height:540px; background:#fff;"><?= $conteudoAtual ?></div>
     </div>
@@ -115,22 +113,102 @@ document.addEventListener('DOMContentLoaded', function () {
     hiddenTextarea.value = visualEditor.innerHTML.trim();
   }
 
-  toolbar.querySelectorAll('[data-command]').forEach(function (button) {
+  function getSelectionRange() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return null;
+    const range = selection.getRangeAt(0);
+    if (!visualEditor.contains(range.commonAncestorContainer)) return null;
+    return range;
+  }
+
+  function wrapSelectionWith(tagName, attributes) {
+    const range = getSelectionRange();
+    if (!range || range.collapsed) return;
+    const wrapper = document.createElement(tagName);
+    if (attributes) {
+      Object.keys(attributes).forEach(function (key) {
+        wrapper.setAttribute(key, attributes[key]);
+      });
+    }
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    range.selectNodeContents(wrapper);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    syncEditorToTextarea();
+  }
+
+  function insertList(type) {
+    const range = getSelectionRange();
+    if (!range) return;
+    const selectedText = range.toString().trim();
+    if (!selectedText) return;
+    const list = document.createElement(type === 'ol' ? 'ol' : 'ul');
+    selectedText.split(/\n+/).map(function (line) { return line.trim(); }).filter(Boolean).forEach(function (line) {
+      const item = document.createElement('li');
+      item.textContent = line;
+      list.appendChild(item);
+    });
+    if (!list.children.length) return;
+    range.deleteContents();
+    range.insertNode(list);
+    syncEditorToTextarea();
+  }
+
+  function removeLinkFromSelection() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    let node = selection.anchorNode;
+    while (node && node !== visualEditor) {
+      if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'A') {
+        const fragment = document.createDocumentFragment();
+        while (node.firstChild) fragment.appendChild(node.firstChild);
+        node.replaceWith(fragment);
+        syncEditorToTextarea();
+        return;
+      }
+      node = node.parentNode;
+    }
+  }
+
+  toolbar.querySelectorAll('[data-action]').forEach(function (button) {
+    button.addEventListener('mousedown', function (event) {
+      event.preventDefault();
+    });
+
     button.addEventListener('click', function () {
-      const command = button.getAttribute('data-command');
-      const value = button.getAttribute('data-value');
       visualEditor.focus();
-      document.execCommand(command, false, value || null);
-      syncEditorToTextarea();
+      const action = button.getAttribute('data-action');
+      if (action === 'bold') wrapSelectionWith('strong');
+      if (action === 'italic') wrapSelectionWith('em');
+      if (action === 'underline') wrapSelectionWith('u');
+      if (action === 'h2') wrapSelectionWith('h2');
+      if (action === 'h3') wrapSelectionWith('h3');
+      if (action === 'ul' || action === 'ol') insertList(action);
+      if (action === 'unlink') removeLinkFromSelection();
+      if (action === 'clear') {
+        const range = getSelectionRange();
+        if (range) {
+          const plain = document.createTextNode(range.toString());
+          range.deleteContents();
+          range.insertNode(plain);
+          syncEditorToTextarea();
+        }
+      }
     });
   });
 
+  linkButton.addEventListener('mousedown', function (event) {
+    event.preventDefault();
+  });
+
   linkButton.addEventListener('click', function () {
-    visualEditor.focus();
+    const range = getSelectionRange();
+    if (!range || range.collapsed) return;
     const url = window.prompt('Digite a URL do link:', 'https://');
     if (url && url.trim() !== '') {
-      document.execCommand('createLink', false, url.trim());
-      syncEditorToTextarea();
+      wrapSelectionWith('a', { href: url.trim(), target: '_blank', rel: 'noopener noreferrer' });
     }
   });
 
