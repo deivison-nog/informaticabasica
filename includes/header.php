@@ -51,6 +51,7 @@ if ($role === 'admin'): ?>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/publicar.php"><i class="bi bi-send"></i> Publicar Conteúdo</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/add_aluno.php"><i class="bi bi-person-plus"></i> Adicionar Aluno</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/editar_alunos.php"><i class="bi bi-person-gear"></i> Editar Alunos</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/ver_questionarios.php"><i class="bi bi-clipboard2-data"></i> Respostas dos Alunos</a></li>
 <?php elseif ($role === 'aluno'): ?>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>aluno/index.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>aluno/aula.php"><i class="bi bi-journal-text"></i> Minhas Aulas</a></li>

@@ -91,12 +91,13 @@ function saveScores(array $scores): void {
 
 /**
  * Save $acertos for $cpf on quiz $aulaId, keeping the best (highest) score.
+ * Optionally persist the individual answers map (question index => chosen letter).
  */
-function saveBestScore(string $cpf, int $aulaId, int $acertos, int $total): void {
+function saveBestScore(string $cpf, int $aulaId, int $acertos, int $total, array $respostas = []): void {
     $scores = loadScores();
     $prev = $scores[$cpf][$aulaId]['acertos'] ?? -1;
     if ($acertos > $prev) {
-        $scores[$cpf][$aulaId] = ['acertos' => $acertos, 'total' => $total];
+        $scores[$cpf][$aulaId] = ['acertos' => $acertos, 'total' => $total, 'respostas' => $respostas];
         saveScores($scores);
     }
 }
