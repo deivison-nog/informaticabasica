@@ -30,6 +30,7 @@ $slots = $imageSlots[$id];
 $uploadOk   = $_SESSION['upload_ok']   ?? null;
 $uploadErro = $_SESSION['upload_erro'] ?? null;
 unset($_SESSION['upload_ok'], $_SESSION['upload_erro']);
+$overrideSlideFile = __DIR__ . '/../data/slides/aula' . $id . '.html';
 
 include __DIR__ . '/../includes/header.php';
 ?>
@@ -62,6 +63,7 @@ include __DIR__ . '/../includes/header.php';
 </style>
 
 <a href="aulas.php" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
+<a href="editar_slide.php?aula=<?= $id ?>" class="btn btn-sm btn-outline-primary mb-3 ms-1"><i class="bi bi-pencil-square me-1"></i>Editar Texto dos Slides</a>
 <h4 class="fw-bold mb-3"><?= htmlspecialchars($aulas[$id]['titulo']) ?></h4>
 <p class="text-muted small mb-3"><i class="bi bi-keyboard me-1"></i>Use as setas ← → do teclado ou os botões para navegar entre os slides.</p>
 
@@ -76,7 +78,11 @@ include __DIR__ . '/../includes/header.php';
     <div class="slide-progress-bar bg-<?= $cor ?>" id="progressBar" style="width:0%"></div>
   </div>
 
-  <?php include __DIR__ . '/../content/aula' . $id . '.php'; ?>
+  <?php if (file_exists($overrideSlideFile)): ?>
+    <?= file_get_contents($overrideSlideFile) ?>
+  <?php else: ?>
+    <?php include __DIR__ . '/../content/aula' . $id . '.php'; ?>
+  <?php endif; ?>
 
   <div class="slide-nav mt-2">
     <button class="btn btn-outline-light btn-sm" id="prevBtn" disabled>

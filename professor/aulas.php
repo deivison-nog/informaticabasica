@@ -25,6 +25,9 @@ $aulas = [
         <a href="ver_aula.php?id=<?= $id ?>" class="btn btn-outline-<?= $a['cor'] ?> btn-sm">
           <i class="bi bi-play-fill me-1"></i>Ver Plano de Aula
         </a>
+        <a href="editar_slide.php?aula=<?= $id ?>" class="btn btn-outline-dark btn-sm">
+          <i class="bi bi-pencil-square me-1"></i>Editar Texto dos Slides
+        </a>
         <a href="publicar.php?aula=<?= $id ?>" class="btn btn-<?= $a['cor'] ?> btn-sm">
           <i class="bi bi-send me-1"></i>Gerenciar Publicação
         </a>

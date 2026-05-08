@@ -36,8 +36,10 @@ include __DIR__ . '/../includes/header.php';
 </div>
 <div class="d-flex gap-2 flex-wrap mb-4">
   <a href="aulas.php" class="btn btn-primary"><i class="bi bi-book me-1"></i>Planos de Aula</a>
+  <a href="editar_slide.php" class="btn btn-outline-primary"><i class="bi bi-pencil-square me-1"></i>Editar Texto dos Slides</a>
   <a href="publicar.php" class="btn btn-success"><i class="bi bi-send me-1"></i>Publicar Conteúdo</a>
   <a href="add_aluno.php" class="btn btn-outline-secondary"><i class="bi bi-person-plus me-1"></i>Adicionar Aluno</a>
+  <a href="editar_alunos.php" class="btn btn-outline-secondary"><i class="bi bi-person-gear me-1"></i>Editar Dados dos Alunos</a>
 </div>
 
 <!-- Ranking -->
@@ -91,4 +93,3 @@ include __DIR__ . '/../includes/header.php';
 <p class="text-muted small mt-2">Melhores notas por aluno em cada questionário. Máximo: 28 pontos.</p>
 <?php endif; ?>
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-

@@ -47,8 +47,10 @@ if ($role === 'admin'): ?>
 <?php elseif ($role === 'professor'): ?>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/index.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/aulas.php"><i class="bi bi-book"></i> Planos de Aula</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/editar_slide.php"><i class="bi bi-pencil-square"></i> Editar Slides</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/publicar.php"><i class="bi bi-send"></i> Publicar Conteúdo</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/add_aluno.php"><i class="bi bi-person-plus"></i> Adicionar Aluno</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= $base ?>professor/editar_alunos.php"><i class="bi bi-person-gear"></i> Editar Alunos</a></li>
 <?php elseif ($role === 'aluno'): ?>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>aluno/index.php"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= $base ?>aluno/aula.php"><i class="bi bi-journal-text"></i> Minhas Aulas</a></li>
