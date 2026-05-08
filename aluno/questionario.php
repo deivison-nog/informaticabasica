@@ -18,6 +18,29 @@ if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
     $pageTitle = $quiz['titulo'];
     $resultados = null;
 
+    $userCpfCheck = $_SESSION['user']['cpf'] ?? '';
+    $jaRespondeu  = ($userCpfCheck !== '') && isset(loadScores()[$userCpfCheck][$id]);
+
+    // Block re-attempt on GET when already answered
+    if ($jaRespondeu && $_SERVER['REQUEST_METHOD'] === 'GET') {
+        include __DIR__ . '/../includes/header.php';
+        $allScores = loadScores();
+        $best = $allScores[$userCpfCheck][$id];
+        $pct  = $best['total'] > 0 ? round($best['acertos'] / $best['total'] * 100) : 0;
+        $cls  = $best['acertos'] === $best['total'] ? 'success' : ($pct >= 50 ? 'warning' : 'danger');
+        ?>
+        <a href="questionario.php" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
+        <h4 class="fw-bold mb-4"><?= htmlspecialchars($quiz['titulo']) ?></h4>
+        <div class="alert alert-<?= $cls ?> fw-semibold">
+          <i class="bi bi-lock-fill me-1"></i>
+          Você já respondeu este questionário e não pode refazê-lo.
+          <br><span class="fw-normal">Sua melhor nota: <strong><?= $best['acertos'] ?>/<?= $best['total'] ?></strong> (<?= $pct ?>%)</span>
+        </div>
+        <?php
+        include __DIR__ . '/../includes/footer.php';
+        exit;
+    }
+
     // Server-side correction on POST submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quiz_id'])
         && (int)$_POST['quiz_id'] === $id) {
@@ -95,8 +118,8 @@ if ($id && isQuestionarioPublicado($id) && isset($allQuizzes[$id])) {
       </div>
     </div>
     <?php endforeach; ?>
-    <a href="questionario.php?id=<?= $id ?>" class="btn btn-outline-primary">
-      <i class="bi bi-arrow-repeat me-1"></i>Refazer Questionário
+    <a href="questionario.php" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left me-1"></i>Voltar aos Questionários
     </a>
 
     <?php else: ?>
@@ -147,9 +170,15 @@ $allScores = loadScores();
         <div class="d-flex align-items-center justify-content-between mb-2">
           <?php if ($disponivel): ?>
             <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponível</span>
-            <a href="questionario.php?id=<?= $id ?>" class="btn btn-<?= $a['cor'] ?> btn-sm">
-              <i class="bi bi-pencil-square me-1"></i><?= $best ? 'Refazer' : 'Fazer' ?> Questionário
-            </a>
+            <?php if (!$best): ?>
+              <a href="questionario.php?id=<?= $id ?>" class="btn btn-<?= $a['cor'] ?> btn-sm">
+                <i class="bi bi-pencil-square me-1"></i>Fazer Questionário
+              </a>
+            <?php else: ?>
+              <span class="btn btn-sm btn-outline-secondary disabled">
+                <i class="bi bi-lock me-1"></i>Concluído
+              </span>
+            <?php endif; ?>
           <?php else: ?>
             <span class="badge bg-secondary"><i class="bi bi-lock me-1"></i>Não liberado</span>
             <span class="text-muted small">Aguarde o professor</span>
