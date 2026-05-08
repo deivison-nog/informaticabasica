@@ -52,6 +52,38 @@ $conteudoAtual = file_exists($overrideFile)
 $pageTitle = 'Professor — Editar Texto dos Slides';
 include __DIR__ . '/../includes/header.php';
 ?>
+<style>
+  .editor-stage {
+    background:#1e2a38;
+    border-radius:14px;
+    padding:1.25rem;
+  }
+  .editor-stage .slide-section {
+    display:block !important;
+    background:#fff;
+    border-radius:10px;
+    padding:2rem 2.5rem;
+    min-height:440px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    margin-bottom:1rem;
+  }
+  #conteudoEditorVisual {
+    min-height:540px;
+    background:transparent;
+    outline:none;
+  }
+  #conteudoEditorVisual img,
+  .slide-editor-image {
+    width:100%;
+    max-width:100%;
+    max-height:320px;
+    object-fit:contain;
+    display:block;
+    margin:.75rem auto;
+    border-radius:8px;
+    box-shadow:0 2px 12px rgba(0,0,0,.14);
+  }
+</style>
 <h4 class="fw-bold mb-3"><i class="bi bi-pencil-square me-2"></i>Editar Texto dos Slides</h4>
 <?php if ($msg): ?>
   <div class="alert alert-<?= $msgType ?> py-2"><?= htmlspecialchars($msg) ?></div>
@@ -85,13 +117,17 @@ include __DIR__ . '/../includes/header.php';
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="ul"><i class="bi bi-list-ul"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="ol"><i class="bi bi-list-ol"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" id="btnLink"><i class="bi bi-link-45deg"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnImage"><i class="bi bi-image"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="unlink"><i class="bi bi-link"></i><i class="bi bi-slash-lg"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="clear">Limpar</button>
       </div>
-      <div id="conteudoEditorVisual" class="p-3" contenteditable="true" style="min-height:540px; background:#fff;"></div>
+      <div class="editor-stage">
+        <div id="conteudoEditorVisual" class="p-3" contenteditable="true"></div>
+      </div>
     </div>
+    <input type="file" id="editorImageInput" accept="image/png,image/jpeg,image/webp,image/gif" class="d-none">
     <textarea name="conteudo" id="conteudoEditor" class="d-none" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
-    <p class="text-muted small mt-2 mb-0">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação.</p>
+    <p id="editorUploadMsg" class="small mt-2 mb-0 text-muted">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação e use o botão <i class="bi bi-image"></i> para inserir fotos.</p>
     <div class="d-flex gap-2 mt-3 flex-wrap">
       <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Salvar Alterações</button>
       <button type="submit" name="reset_slide" value="1" class="btn btn-outline-danger" onclick="return confirm('Restaurar texto original desta aula?')">
@@ -108,6 +144,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const hiddenTextarea = document.getElementById('conteudoEditor');
   const toolbar = document.getElementById('wysiwygToolbar');
   const linkButton = document.getElementById('btnLink');
+  const imageButton = document.getElementById('btnImage');
+  const imageInput = document.getElementById('editorImageInput');
+  const uploadMsg = document.getElementById('editorUploadMsg');
 
   function sanitizeClientHtml(rawHtml) {
     const template = document.createElement('template');
@@ -131,9 +170,19 @@ document.addEventListener('DOMContentLoaded', function () {
     return template.innerHTML;
   }
 
+  function normalizeSlideMedia() {
+    visualEditor.querySelectorAll('img').forEach(function (img) {
+      img.classList.add('slide-editor-image');
+      img.removeAttribute('width');
+      img.removeAttribute('height');
+    });
+  }
+
   visualEditor.innerHTML = sanitizeClientHtml(hiddenTextarea.value);
+  normalizeSlideMedia();
 
   function syncEditorToTextarea() {
+    normalizeSlideMedia();
     hiddenTextarea.value = sanitizeClientHtml(visualEditor.innerHTML.trim());
   }
 
@@ -196,6 +245,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function insertNodeAtSelection(node) {
+    const range = getSelectionRange();
+    if (!range) {
+      visualEditor.appendChild(node);
+      syncEditorToTextarea();
+      return;
+    }
+    range.deleteContents();
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.setEndAfter(node);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    syncEditorToTextarea();
+  }
+
   toolbar.querySelectorAll('[data-action]').forEach(function (button) {
     button.addEventListener('mousedown', function (event) {
       event.preventDefault();
@@ -233,6 +299,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const url = window.prompt('Digite a URL do link:', 'https://');
     if (url && url.trim() !== '') {
       wrapSelectionWith('a', { href: url.trim(), target: '_blank', rel: 'noopener noreferrer' });
+    }
+  });
+
+  imageButton.addEventListener('mousedown', function (event) {
+    event.preventDefault();
+  });
+
+  imageButton.addEventListener('click', function () {
+    imageInput.click();
+  });
+
+  imageInput.addEventListener('change', async function () {
+    const file = imageInput.files && imageInput.files[0];
+    if (!file) return;
+
+    uploadMsg.className = 'small mt-2 mb-0 text-muted';
+    uploadMsg.textContent = 'Enviando imagem...';
+
+    const formData = new FormData();
+    formData.append('aula', '<?= $aula ?>');
+    formData.append('imagem', file);
+
+    try {
+      const response = await fetch('upload_imagem_wysiwyg.php', {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin'
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok || !payload.url) {
+        throw new Error(payload.message || 'Falha no envio da imagem.');
+      }
+
+      const img = document.createElement('img');
+      img.src = payload.url;
+      img.alt = file.name || 'Imagem do slide';
+      img.className = 'slide-editor-image';
+      insertNodeAtSelection(img);
+      uploadMsg.className = 'small mt-2 mb-0 text-success';
+      uploadMsg.textContent = 'Imagem inserida com sucesso.';
+    } catch (error) {
+      uploadMsg.className = 'small mt-2 mb-0 text-danger';
+      uploadMsg.textContent = error.message || 'Não foi possível enviar a imagem.';
+    } finally {
+      imageInput.value = '';
     }
   });
 
