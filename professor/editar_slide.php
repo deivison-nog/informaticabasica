@@ -75,7 +75,24 @@ include __DIR__ . '/../includes/header.php';
   <form method="post" id="slideForm">
     <input type="hidden" name="aula" value="<?= $aula ?>">
     <label class="form-label fw-semibold">Conteúdo HTML dos slides da <?= htmlspecialchars($aulas[$aula]) ?></label>
-    <textarea name="conteudo" id="conteudoEditor" class="form-control font-monospace" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
+    <div class="border rounded overflow-hidden">
+      <div class="bg-light border-bottom p-2 d-flex flex-wrap gap-1" id="wysiwygToolbar">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="bold"><i class="bi bi-type-bold"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="italic"><i class="bi bi-type-italic"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="underline"><i class="bi bi-type-underline"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="formatBlock" data-value="h2">H2</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="formatBlock" data-value="h3">H3</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="insertUnorderedList"><i class="bi bi-list-ul"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="insertOrderedList"><i class="bi bi-list-ol"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnLink"><i class="bi bi-link-45deg"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="unlink"><i class="bi bi-link"></i><i class="bi bi-slash-lg"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="removeFormat">Limpar</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="undo"><i class="bi bi-arrow-counterclockwise"></i></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-command="redo"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+      <div id="conteudoEditorVisual" class="p-3" contenteditable="true" style="min-height:540px; background:#fff;"><?= $conteudoAtual ?></div>
+    </div>
+    <textarea name="conteudo" id="conteudoEditor" class="d-none" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
     <p class="text-muted small mt-2 mb-0">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação.</p>
     <div class="d-flex gap-2 mt-3 flex-wrap">
       <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Salvar Alterações</button>
@@ -86,22 +103,39 @@ include __DIR__ . '/../includes/header.php';
     </div>
   </form>
 </div>
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  tinymce.init({
-    selector: '#conteudoEditor',
-    height: 540,
-    menubar: false,
-    branding: false,
-    plugins: 'lists link table code preview fullscreen',
-    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link | code preview fullscreen',
-    content_style: 'body { font-family: Arial, sans-serif; font-size: 15px; }'
+  const form = document.getElementById('slideForm');
+  const visualEditor = document.getElementById('conteudoEditorVisual');
+  const hiddenTextarea = document.getElementById('conteudoEditor');
+  const toolbar = document.getElementById('wysiwygToolbar');
+  const linkButton = document.getElementById('btnLink');
+
+  function syncEditorToTextarea() {
+    hiddenTextarea.value = visualEditor.innerHTML.trim();
+  }
+
+  toolbar.querySelectorAll('[data-command]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const command = button.getAttribute('data-command');
+      const value = button.getAttribute('data-value');
+      visualEditor.focus();
+      document.execCommand(command, false, value || null);
+      syncEditorToTextarea();
+    });
   });
 
-  document.getElementById('slideForm').addEventListener('submit', function () {
-    if (window.tinymce) tinymce.triggerSave();
+  linkButton.addEventListener('click', function () {
+    visualEditor.focus();
+    const url = window.prompt('Digite a URL do link:', 'https://');
+    if (url && url.trim() !== '') {
+      document.execCommand('createLink', false, url.trim());
+      syncEditorToTextarea();
+    }
   });
+
+  visualEditor.addEventListener('input', syncEditorToTextarea);
+  form.addEventListener('submit', syncEditorToTextarea);
 });
 </script>
 <?php include __DIR__ . '/../includes/footer.php'; ?>
