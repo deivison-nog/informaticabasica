@@ -6,7 +6,27 @@ $pageTitle = 'Professor — Editar Alunos';
 $msg = '';
 $msgType = 'info';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete' && isset($_POST['aluno_id'])) {
+    $alunoId = (int)$_POST['aluno_id'];
+    $users = loadUsers();
+    $exists = false;
+    foreach ($users as $u) {
+        if ((int)($u['id'] ?? 0) === $alunoId && ($u['role'] ?? '') === 'aluno') {
+            $exists = true;
+            break;
+        }
+    }
+    if ($exists) {
+        deleteUser($alunoId);
+        $msg = 'Aluno excluído com sucesso.';
+        $msgType = 'success';
+    } else {
+        $msg = 'Aluno não encontrado.';
+        $msgType = 'warning';
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aluno_id']) && ($_POST['action'] ?? '') !== 'delete') {
     $alunoId = (int)$_POST['aluno_id'];
     $cpf     = preg_replace('/\D/', '', $_POST['cpf'] ?? '');
     $nome    = trim($_POST['nome'] ?? '');
@@ -96,7 +116,15 @@ include __DIR__ . '/../includes/header.php';
               <input type="password" id="senha_<?= (int)$a['id'] ?>" name="senha" class="form-control form-control-sm" placeholder="Deixe em branco para manter">
           </td>
           <td>
-              <button class="btn btn-primary btn-sm w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
+              <div class="d-flex gap-1">
+                <button class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-pencil-square me-1"></i>Editar</button>
+              </div>
+            </form>
+            <form method="post" class="m-0 mt-1"
+                  onsubmit="return confirm('Excluir o aluno <?= htmlspecialchars(addslashes($a['nome']), ENT_QUOTES) ?>? Esta ação não pode ser desfeita.')">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="aluno_id" value="<?= (int)$a['id'] ?>">
+              <button type="submit" class="btn btn-danger btn-sm w-100"><i class="bi bi-trash me-1"></i>Excluir</button>
             </form>
           </td>
         </tr>
