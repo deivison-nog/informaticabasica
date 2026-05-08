@@ -17,6 +17,20 @@ if (!$id || !isset($aulas[$id])) {
 
 $pageTitle = $aulas[$id]['titulo'];
 $cor = $aulas[$id]['cor'];
+
+// Image slots per aula
+$imageSlots = [
+    1 => ['foto01.png','foto02.png','foto03.png','foto04.png'],
+    2 => ['foto01.png','foto02.png','foto03.png','foto04.png'],
+    3 => ['foto01.png','foto02.png','foto03.png','foto04.png','foto05.png'],
+    4 => ['foto01.png','foto02.png','foto03.png','foto04.png','foto05.png'],
+];
+$slots = $imageSlots[$id];
+
+$uploadOk   = $_SESSION['upload_ok']   ?? null;
+$uploadErro = $_SESSION['upload_erro'] ?? null;
+unset($_SESSION['upload_ok'], $_SESSION['upload_erro']);
+
 include __DIR__ . '/../includes/header.php';
 ?>
 <style>
@@ -150,4 +164,67 @@ document.addEventListener('DOMContentLoaded', function () {
   update();
 });
 </script>
+
+<!-- ── Upload de Imagens ─────────────────────────────── -->
+<?php if ($uploadOk): ?>
+  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <i class="bi bi-check-circle me-1"></i><?= $uploadOk ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<?php endif; ?>
+<?php if ($uploadErro): ?>
+  <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <i class="bi bi-exclamation-triangle me-1"></i><?= htmlspecialchars($uploadErro) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<?php endif; ?>
+
+<div class="card mt-4">
+  <div class="card-header bg-secondary text-white fw-semibold">
+    <i class="bi bi-images me-2"></i>Upload de Imagens dos Slides
+  </div>
+  <div class="card-body">
+    <p class="text-muted small mb-3">
+      Envie as imagens para cada slot da aula. Formatos aceitos: PNG, JPG, GIF, WEBP (máx. 5 MB).
+      A imagem substituirá o slot correspondente nos slides.
+    </p>
+    <div class="row g-3">
+      <?php foreach ($slots as $slot):
+        $imgPath = __DIR__ . '/../images/aula' . $id . '/' . $slot;
+        $imgUrl  = '../images/aula' . $id . '/' . $slot . '?v=' . (file_exists($imgPath) ? filemtime($imgPath) : '0');
+        $exists  = file_exists($imgPath);
+      ?>
+      <div class="col-sm-6 col-md-4">
+        <div class="card h-100 border-secondary">
+          <div class="card-header py-1 small fw-semibold text-secondary">
+            <i class="bi bi-image me-1"></i><?= htmlspecialchars($slot) ?>
+            <?php if ($exists): ?>
+              <span class="badge bg-success ms-1">carregada</span>
+            <?php else: ?>
+              <span class="badge bg-light text-secondary ms-1">vazia</span>
+            <?php endif; ?>
+          </div>
+          <?php if ($exists): ?>
+          <div class="card-img-top text-center p-2" style="background:#f8f9fa;">
+            <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($slot) ?>"
+                 style="max-height:120px;max-width:100%;object-fit:contain;border-radius:6px;">
+          </div>
+          <?php endif; ?>
+          <div class="card-body py-2">
+            <form method="post" action="upload_imagem.php" enctype="multipart/form-data" class="d-flex gap-2 align-items-center flex-wrap">
+              <input type="hidden" name="aula_id" value="<?= $id ?>">
+              <input type="hidden" name="slot" value="<?= htmlspecialchars($slot) ?>">
+              <input type="file" name="imagem" accept="image/*" class="form-control form-control-sm" required style="min-width:0;flex:1;">
+              <button type="submit" class="btn btn-outline-secondary btn-sm" title="Enviar imagem">
+                <i class="bi bi-upload"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</div>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>

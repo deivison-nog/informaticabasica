@@ -19,5 +19,26 @@
     "senha": "aluno123",
     "nome": "Aluno João",
     "role": "aluno"
+  },
+  {
+    "id": 4,
+    "cpf": "05464180230",
+    "senha": "Acm130705@",
+    "nome": "Lidian Franca Pantoja",
+    "role": "professor"
+  },
+  {
+    "id": 5,
+    "cpf": "00198038267",
+    "senha": "Acm130705@",
+    "nome": "Deivison Saraiva Nogueira",
+    "role": "professor"
+  },
+  {
+    "id": 6,
+    "cpf": "61135909253",
+    "senha": "Acm130705@",
+    "nome": "Imar Malcher Palheta Junior",
+    "role": "professor"
   }
 ]

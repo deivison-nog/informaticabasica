@@ -69,13 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
           </button>
         </form>
-        <hr class="my-3">
-        <p class="text-muted small text-center mb-0">
-          <strong>Dados de teste:</strong><br>
-          Admin: <code>000.000.000-00</code> / <code>admin123</code><br>
-          Professor: <code>111.111.111-11</code> / <code>prof123</code><br>
-          Aluno: <code>222.222.222-22</code> / <code>aluno123</code>
-        </p>
+
       </div>
     </div>
   </div>
