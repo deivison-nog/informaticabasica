@@ -88,7 +88,7 @@ include __DIR__ . '/../includes/header.php';
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="unlink"><i class="bi bi-link"></i><i class="bi bi-slash-lg"></i></button>
         <button type="button" class="btn btn-sm btn-outline-secondary" data-action="clear">Limpar</button>
       </div>
-      <div id="conteudoEditorVisual" class="p-3" contenteditable="true" style="min-height:540px; background:#fff;"><?= $conteudoAtual ?></div>
+      <div id="conteudoEditorVisual" class="p-3" contenteditable="true" style="min-height:540px; background:#fff;"></div>
     </div>
     <textarea name="conteudo" id="conteudoEditor" class="d-none" rows="20" required><?= htmlspecialchars($conteudoAtual) ?></textarea>
     <p class="text-muted small mt-2 mb-0">Dica: mantenha os blocos com <code>&lt;div class="slide-section"&gt;...&lt;/div&gt;</code> para não quebrar a navegação.</p>
@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const hiddenTextarea = document.getElementById('conteudoEditor');
   const toolbar = document.getElementById('wysiwygToolbar');
   const linkButton = document.getElementById('btnLink');
+  visualEditor.innerHTML = hiddenTextarea.value;
 
   function syncEditorToTextarea() {
     hiddenTextarea.value = visualEditor.innerHTML.trim();
