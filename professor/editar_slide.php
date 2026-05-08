@@ -108,10 +108,33 @@ document.addEventListener('DOMContentLoaded', function () {
   const hiddenTextarea = document.getElementById('conteudoEditor');
   const toolbar = document.getElementById('wysiwygToolbar');
   const linkButton = document.getElementById('btnLink');
-  visualEditor.innerHTML = hiddenTextarea.value;
+
+  function sanitizeClientHtml(rawHtml) {
+    const template = document.createElement('template');
+    template.innerHTML = rawHtml;
+
+    template.content.querySelectorAll('script, iframe, object, embed').forEach(function (node) {
+      node.remove();
+    });
+
+    template.content.querySelectorAll('*').forEach(function (element) {
+      Array.from(element.attributes).forEach(function (attribute) {
+        const name = attribute.name.toLowerCase();
+        const value = attribute.value.trim().toLowerCase();
+        if (name.startsWith('on')) element.removeAttribute(attribute.name);
+        if ((name === 'href' || name === 'src') && value.startsWith('javascript:')) {
+          element.removeAttribute(attribute.name);
+        }
+      });
+    });
+
+    return template.innerHTML;
+  }
+
+  visualEditor.innerHTML = sanitizeClientHtml(hiddenTextarea.value);
 
   function syncEditorToTextarea() {
-    hiddenTextarea.value = visualEditor.innerHTML.trim();
+    hiddenTextarea.value = sanitizeClientHtml(visualEditor.innerHTML.trim());
   }
 
   function getSelectionRange() {
