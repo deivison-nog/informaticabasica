@@ -90,7 +90,7 @@ include __DIR__ . '/../includes/header.php';
                      value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $a['cpf'])) ?>" required>
           </td>
           <td>
-              <input type="text" name="senha" class="form-control form-control-sm" value="<?= htmlspecialchars($a['senha'] ?? '') ?>" required>
+              <input type="password" name="senha" class="form-control form-control-sm" value="<?= htmlspecialchars($a['senha'] ?? '') ?>" required>
           </td>
           <td>
               <button class="btn btn-primary btn-sm w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
