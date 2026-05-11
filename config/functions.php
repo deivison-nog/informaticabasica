@@ -129,7 +129,7 @@ function getRanking(): array {
         ];
     }
     usort($ranking, fn($a, $b) => $b['pontos'] <=> $a['pontos']);
-    return $ranking;
+    return array_slice($ranking, 0, 10);
 }
 
 /**
