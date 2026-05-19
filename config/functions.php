@@ -106,7 +106,7 @@ function saveBestScore(string $cpf, int $aulaId, int $acertos, int $total, array
  * Returns ranked list of alunos with total best-score points across all quizzes.
  * Each entry: ['nome' => ..., 'cpf' => ..., 'pontos' => ..., 'detalhe' => [...]]
  */
-function getRanking(): array {
+function getRanking(?int $limit = 10): array {
     $scores = loadScores();
     $users  = array_filter(loadUsers(), fn($u) => $u['role'] === 'aluno');
     $ranking = [];
@@ -129,7 +129,10 @@ function getRanking(): array {
         ];
     }
     usort($ranking, fn($a, $b) => $b['pontos'] <=> $a['pontos']);
-    return array_slice($ranking, 0, 10);
+    if ($limit === null || $limit <= 0) {
+        return $ranking;
+    }
+    return array_slice($ranking, 0, $limit);
 }
 
 /**

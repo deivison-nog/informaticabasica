@@ -40,6 +40,7 @@ include __DIR__ . '/../includes/header.php';
   <a href="publicar.php" class="btn btn-success"><i class="bi bi-send me-1"></i>Publicar Conteúdo</a>
   <a href="add_aluno.php" class="btn btn-outline-secondary"><i class="bi bi-person-plus me-1"></i>Adicionar Aluno</a>
   <a href="editar_alunos.php" class="btn btn-outline-secondary"><i class="bi bi-person-gear me-1"></i>Editar Dados dos Alunos</a>
+  <a href="ranking_geral.php" class="btn btn-outline-warning"><i class="bi bi-trophy me-1"></i>Ranking Geral</a>
   <a href="ver_questionarios.php" class="btn btn-outline-info"><i class="bi bi-clipboard2-data me-1"></i>Respostas dos Alunos</a>
 </div>
 
